@@ -1,4 +1,4 @@
-@main def main():Unit = println(hand())
+@main def main():Unit = println(haufen() +"\n"+ hand())
 
 val Farben: List[String] = List[String]("🟥","🟩","🟦","🟨","⬛")
 
@@ -11,5 +11,5 @@ def hand():String={
 }
  
 def haufen():String={
-  "Letzte Karte \n| " + Farben.apply(lastCard._1)+" "+Symbole.apply(lastCard._2)
+  "Letzte Karte \n| " + Farben.apply(lastCard._1)+" "+Symbole.apply(lastCard._2) +" |"
 }
