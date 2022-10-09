@@ -1,9 +1,11 @@
 @main def main():Unit = println(hand())
 
-val invList: List[(Int,String)] = List[(Int,String)]( (3,"🟥"),(3,"🟩"),(1,"🟦"),(2,"🟨"))
+val Farben: List[String] = List[String]("🟥","🟩","🟦","🟨","⬛")
 
-val Symbol: List[(Int,String)] = List[(Int,String)]( (0,"0"),(1,"1"),(2,"2"),(3,"3"),(4,"4"),(4,"5"),(4,"6"),(4,"7"))
+val Symbole: List[String] = List[String]( "0","1","2","3","4","5","6","7","8","9","🚫","🔃","+2","🌈","+4")
+
+val HandP1: List[(Int,Int)] = List[(Int,Int)]( (1,8),(3,4),(3,10),(4,13),(4,14),(2,3) )
 
 def hand():String={
-  "Spieler 1 deine Hand \n| "+invList.map(k=>k._1.toString()+""+k._2).mkString(" | ") +" |"
+  "Hand Spieler 1 \n| "+HandP1.map(k=> Farben.apply(k._1)+" "+Symbole.apply(k._2)).mkString(" | ") +" |"
 }
