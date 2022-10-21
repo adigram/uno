@@ -20,3 +20,18 @@ object uno{
   
   def lastcard(): String = "Last Card(stack) \n| " + colour.apply(r.nextInt(5))+" "+symbol.apply(r.nextInt(15)) +" |"
 }
+
+trait PlayerCount {
+  val playercount: Int = 0
+}
+
+class player extends  PlayerCount{
+  val hand:List[(Int,Int)]
+  val number:Int
+  val playercount: Int
+  
+  player(List[(Int,Int)] hand){
+    playercount++;
+    this.hand = hand
+  }
+}
