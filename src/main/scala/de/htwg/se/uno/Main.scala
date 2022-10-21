@@ -1,3 +1,5 @@
+package Uno
+
 object uno{
   val colour = List("🟥","🟩","🟦","🟨","⬛")
   
