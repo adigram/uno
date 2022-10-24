@@ -19,3 +19,4 @@ scalacOptions ++= Seq(
 javaOptions in run ++= Seq(
     "-Dfile.encoding=UTF-8",
 )
+coverageEnabled := true
