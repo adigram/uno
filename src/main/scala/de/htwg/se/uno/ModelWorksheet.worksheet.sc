@@ -26,3 +26,17 @@ def createDeck(): Array[Card] =
     cards
 
 createDeck()
+
+val e   = Iterator(0)
+val r5  = Iterator(1,2,4,2,3,0,1,5,2,3,0,2,1,4,1,3,0,4,5)
+val r15 = Iterator(1,2,4,2,3,0,1,5,2,3,0,2,1,4,1,3,0,4,5)
+
+val randomList: List[Iterator[Int]] = List(e,e,e,e,e,r5,e,e,e,e,e,e,e,e,e,r15)
+
+val random:( Int => Int) = k => randomList.apply(k).next()
+
+random(5)
+
+random(5)
+
+random(5)
