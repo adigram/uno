@@ -1,3 +1,4 @@
+import de.htwg.se.uno
 println("Hello, world!")
    
 val colour = List("🟥","🟩","🟦","🟨","⬛")

@@ -14,10 +14,16 @@ val random:( Int => Int) = k => randomList.apply(k).next()
 
 class MainSpec extends AnyWordSpec with Matchers {
 
-  "Lastcard" should {
+  "Main" should {
     val output = uno.lastcard(random)
-    "print"  in {
+    "lastcard() print"  in {
       output should be("Last Card(stack) \n| 🟨  8 |")
     }
+    val handsList = uno.hands(random)
+    "hands() List"  in {
+      handsList should be(List((2,15), (4,14), (2,11), (3,7), (0,3), (1,8)))
+    }
   }
+
+
 }
