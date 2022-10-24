@@ -19,6 +19,5 @@ object uno{
   def playershand(player: Int,nextInt:(Int => Int)): String = 
     "Hand Player "  + player +"\n" + hands(nextInt).map(k=> colour.apply(k._1) +" "+symbol.apply(k._2)).mkString("  |  ")  + "\n"
   
-  def lastcard(): String = "Last Card(stack) \n| " + colour.apply(r.nextInt(5))+" "+symbol.apply(r.nextInt(15)) +" |"
+  def lastcard(nextInt:(Int => Int)): String = "Last Card(stack) \n| " + colour.apply(nextInt(5))+" "+symbol.apply(nextInt(15)) +" |"
 }
-
