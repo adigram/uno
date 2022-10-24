@@ -1,4 +1,4 @@
-package Uno
+package de.htwg.se.uno
 
 object uno{
   val colour = List("🟥","🟩","🟦","🟨","⬛")
