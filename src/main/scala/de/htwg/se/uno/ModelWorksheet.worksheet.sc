@@ -41,3 +41,8 @@ random(5)
 random(5)
 
 random(5)
+
+case class Player(name : String){
+    override def toString:String = name 
+ }
+ val student = Player("Mark")
