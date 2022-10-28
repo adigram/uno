@@ -16,7 +16,7 @@ lazy val root = project
 scalacOptions ++= Seq(
     "-encoding", "utf8"
     )
-javaOptions in run ++= Seq(
+run / javaOptions ++= Seq(
     "-Dfile.encoding=UTF-8",
 )
 coverageEnabled := true
