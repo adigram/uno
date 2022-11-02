@@ -41,3 +41,48 @@ random(5)
 random(5)
 
 random(5)
+
+enum Value {
+  case Zero, One, Two, Three, Four, Five, Six, Seven, Eight, Nine,
+        Skip, Reverse, DrawTwo, Wild, WildFour
+  override def toString = {
+      this match {
+        case Zero => " 0" case One => " 1"
+        case Two => " 2" case Three=> " 3" case Four => " 4" case Five => " 5"
+        case Six=> " 6" case Seven => " 7" case Eight => " 8"  case Nine=> " 9"
+        case Skip => "🚫" case Reverse => "🔃" case DrawTwo => "+2"
+        case Wild => "🌈" case WildFour => "+4"
+      }
+  }
+}
+
+enum Colour {
+  case Red, Green, Blue, Yellow, Black
+  override def toString = {
+    this match {
+      case Red => "🟥"
+      case Green => "🟩"
+      case Blue => "🟦"
+      case Yellow => "🟨"
+      case Black => "⬛"
+    }
+  }
+}
+var a = List(1,2,3,5)
+val b = a.patch(0, Nil, 1)
+
+def createPlayer(players: Int,  deck: Array[(Card)]):List[(Player)]=(0 until players).map(k =>Player(CardDeck.getCardsStack(deck,7).
+                                                                        toList,getName())).toList
+   def getRandomCard(stack: Array[Card], n: Int):(Card, Array[Card]) =
+        val card = stack(n)
+        stack.patch(n, Nil, 1)
+        (card,stack)
+
+    def getCardsStack(stack: Array[Card], n: Int): (Array[Card], Array[Card]) =
+        val newCards = new Array[Card](n)
+        var stackClone = stack.clone
+        for (i <- 1 to n)
+            val tuple = getRandomCard(stackClone, nextInt(stack.length -1))
+            newCards(i-1) = tuple._1
+            stackClone = tuple._2
+        (newCards, stack)
