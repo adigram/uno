@@ -15,9 +15,8 @@ object CardDeck {
 
     def createDeck():List[Card] = createZeroCards() ++ createNormalCards() ++ wildCards()
 
-    def shuffle(r: scala.util.Random) = r.shuffle(CardDeck.deck)
+    def shuffle(r: scala.util.Random) = this.deck = r.shuffle(CardDeck.deck)
 
     def takeCard(n: Int)=  {var split = CardDeck.deck.splitAt(n); this.deck = split._2; split._1}
-    
-    //def takeCard(n: Int):List[Card] = (0 until n).map(k => (CardDeck.deck.patch(0,Nil,1))
-    }
+
+}
