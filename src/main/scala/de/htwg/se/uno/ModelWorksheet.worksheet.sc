@@ -41,3 +41,35 @@ random(5)
 random(5)
 
 random(5)
+
+enum Value {
+  case Zero, One, Two, Three, Four, Five, Six, Seven, Eight, Nine,
+        Skip, Reverse, DrawTwo, Wild, WildFour
+  override def toString = {
+      this match {
+        case Zero => " 0" case One => " 1"
+        case Two => " 2" case Three=> " 3" case Four => " 4" case Five => " 5"
+        case Six=> " 6" case Seven => " 7" case Eight => " 8"  case Nine=> " 9"
+        case Skip => "🚫" case Reverse => "🔃" case DrawTwo => "+2"
+        case Wild => "🌈" case WildFour => "+4"
+      }
+  }
+}
+
+enum Colour {
+  case Red, Green, Blue, Yellow, Black
+  override def toString = {
+    this match {
+      case Red => "🟥"
+      case Green => "🟩"
+      case Blue => "🟦"
+      case Yellow => "🟨"
+      case Black => "⬛"
+    }
+  }
+}
+var a = List(1,2,3,5)
+val b = a.patch(0, Nil, 1)
+
+
+   
