@@ -71,18 +71,5 @@ enum Colour {
 var a = List(1,2,3,5)
 val b = a.patch(0, Nil, 1)
 
-def createPlayer(players: Int,  deck: Array[(Card)]):List[(Player)]=(0 until players).map(k =>Player(CardDeck.getCardsStack(deck,7).
-                                                                        toList,getName())).toList
-   def getRandomCard(stack: Array[Card], n: Int):(Card, Array[Card]) =
-        val card = stack(n)
-        stack.patch(n, Nil, 1)
-        (card,stack)
 
-    def getCardsStack(stack: Array[Card], n: Int): (Array[Card], Array[Card]) =
-        val newCards = new Array[Card](n)
-        var stackClone = stack.clone
-        for (i <- 1 to n)
-            val tuple = getRandomCard(stackClone, nextInt(stack.length -1))
-            newCards(i-1) = tuple._1
-            stackClone = tuple._2
-        (newCards, stack)
+   
