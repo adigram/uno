@@ -13,9 +13,12 @@ class TUI() {
         players.foreach{k => print(k)}
         println("Stack: " + CardDeck.takeCard(1).mkString(""))
     }
+
+    var scan:(Unit => String) = Unit =>  scala.io.StdIn.readLine()
+
     def getName(): String ={
         println("Please enter your Name:")
-        val name = scala.io.StdIn.readLine()
+        val name = scan(())
         name 
     }
   

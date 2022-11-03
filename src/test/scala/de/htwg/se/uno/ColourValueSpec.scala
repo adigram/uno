@@ -4,7 +4,7 @@ import org.scalatest.wordspec.AnyWordSpec
 import model._
 
 class ColourValueSpec extends AnyWordSpec with Matchers {
-     "A Value" when {
+    "A Value" when {
         val value = List(Value.Zero, Value.One, Value.Two, Value.Three, Value.Four,
                         Value.Five, Value.Six, Value.Seven, Value.Eight, Value.Nine,
                         Value.Skip, Value.Reverse, Value.DrawTwo, Value.Wild, Value.WildFour) 
@@ -24,11 +24,8 @@ class ColourValueSpec extends AnyWordSpec with Matchers {
                 value(11).toString should be ("🔃")
                 value(12).toString should be ("+2")
                 value(13).toString should be ("🌈")
-                value(14).toString should be ("+4")
-                
-            }
-            
-            
+                value(14).toString should be ("+4")  
+            }  
         }
     }
     "A colour" when{
@@ -41,6 +38,5 @@ class ColourValueSpec extends AnyWordSpec with Matchers {
             }
         }
     }
-
 
 }
