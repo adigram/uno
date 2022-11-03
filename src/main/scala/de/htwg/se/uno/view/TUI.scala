@@ -1,26 +1,28 @@
 package  de.htwg.se.uno.view
 import scala.io.StdIn.readLine
-import de.htwg.se.uno.model._ 
-import scala.collection.mutable._
-import scala.util.Random as r 
-class TUI() {
+import de.htwg.se.uno.controller._
+import de.htwg.se.uno.util._
 
+class TUI(ctrl:Controller) extends Observer{
+
+    ctrl.add(this)
+    ctrl.createGame()
+    
     def start = {
-        CardDeck.createDeck()
-        CardDeck.shuffle(r)
         println("Hello! Please enter the amount of Player.")
-        var players = createPlayers(readLine().toInt)
-        players.foreach{k => print(k)}
-        println("Stack: " + CardDeck.takeCard(1).mkString(""))
+        ctrl.createPlayers(readLine().toInt,getName)
+        ctrl.printPlayers()
+        ctrl.printFirstcard()
     }
 
     var scan:(Unit => String) = Unit =>  scala.io.StdIn.readLine()
 
-    def getName(): String ={
+    val getName:(Unit => String) = Unit => {
         println("Please enter your Name:")
         val name = scan(())
         name 
     }
+
+    override def update: Unit = println(ctrl.statement)
   
-    def createPlayers(players: Int):List[(Player)]=(0 until players).map(k =>Player(CardDeck.takeCard(7),getName())).toList                                                                     
 }
