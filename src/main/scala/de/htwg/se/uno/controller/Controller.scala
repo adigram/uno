@@ -6,7 +6,6 @@ import scala.util.Random as random
 
 class Controller extends Observable{
     var statement = ""
-
     var players = List[(Player)]()
 
     def createGame() =
@@ -18,6 +17,10 @@ class Controller extends Observable{
     def printPlayers() = 
         statement = players.map(k => k.toString).mkString
         notifyObservers
+    def getCardStack() =
+        CardsAction.getCards(k)
+    def dropCards() = 
+        CardsAction.dropCards(k,1)
     
     def printFirstcard() = 
         statement =  "Stack: " + CardDeck.takeCard(1).mkString
