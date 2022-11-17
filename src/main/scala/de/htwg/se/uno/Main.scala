@@ -4,6 +4,11 @@ import view._
 import controller._
 
 object uno{
-  val tui = TUI(new Controller)
-  @main def main():Unit = tui.start
+  val controller = new Controller(new Game)
+  
+  val tui = TUI(controller)
+  @main def main():Unit ={ 
+    tui.start
+    tui.input(state.handle(selectionEvent()))
+  }
 }

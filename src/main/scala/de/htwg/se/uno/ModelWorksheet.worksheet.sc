@@ -71,5 +71,5 @@ enum Colour {
 var a = List(1,2,3,5)
 val b = a.patch(0, Nil, 1)
 
-
+printf("_" * 50 + "\n")
    
