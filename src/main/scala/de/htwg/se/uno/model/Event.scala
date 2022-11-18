@@ -65,6 +65,26 @@ case class roundFinishedEvent() extends Event {
   }
 }
 
+case class selectCardEvent() extends Event {
+  def selectCard: String = {
+    val temp = "Please select the Card you want to Push"
+    println(temp)
+    return temp
+  }
+}
+
+
+case class selectedWrongCardEvent() extends Event {
+  def selectedWrongCard: String = {
+    val temp = "Your Card does mot march with the card on the stack"
+    println(temp)
+    uno.tui.input(uno.controller.handle(selectionEvent()))
+    return temp
+  }
+}
+
+
+
 
 
 

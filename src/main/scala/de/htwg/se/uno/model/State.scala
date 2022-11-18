@@ -3,7 +3,7 @@ package de.htwg.se.uno.model
 object state {
       var state = startEvent().start 
     
-    def handle(e: Event ) = {
+      def handle(e: Event ) = {
         e match {
             case a: startEvent => state = startEvent().start
             case b: selectionEvent => state = selectionEvent().selection
@@ -11,7 +11,9 @@ object state {
             case d: callUnoEvent => state = callUnoEvent().callUno
             case e: takeCardFromStackEvent => state = takeCardFromStackEvent().takeCardFromStack
             case f: roundFinishedEvent => state = roundFinishedEvent().roundFinished
-            case g: leaveGameEvent => state =  leaveGameEvent().leaveGame
+            case g: selectCardEvent => state = selectCardEvent().selectCard
+            case h: selectedWrongCardEvent => state = selectedWrongCardEvent().selectedWrongCard
+            case i: leaveGameEvent => state =  leaveGameEvent().leaveGame
         }
         state 
     }

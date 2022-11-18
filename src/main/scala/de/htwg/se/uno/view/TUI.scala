@@ -20,7 +20,7 @@ class TUI(ctrl:Controller ) extends Observer{
 
     def input(s: Unit) = {
         
-        var input =  readLine().toString()
+        val input =  readLine().toString()
 
         input(0) match {
             case 's'=> {
@@ -30,10 +30,12 @@ class TUI(ctrl:Controller ) extends Observer{
                 ctrl.handle(roundFinishedEvent())
             }
             case 'r' => {
+                ctrl.handle(selectCardEvent())
+                ctrl.handle(ctrl.handleRequest(readLine()))
 
             }
             case 'u' => {
-
+                
             }
             case 'w' =>{
 

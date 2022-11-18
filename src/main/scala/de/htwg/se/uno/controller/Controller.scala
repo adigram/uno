@@ -26,6 +26,10 @@ class Controller(var game: Game) extends Observable{
     def takeCard(): Unit = {
         takeCardCreato.apply(CardDeck.deck)
     }
+
+    def handleRequest(input: String) : Event ={
+        return game.handleRequest(input)
+    }
     
     
     def printFirstcard() = 
