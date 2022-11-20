@@ -43,6 +43,9 @@ class TUI(ctrl:Controller ) extends Observer{
             case 'l' => {
                 ctrl.handle(leaveGameEvent())
             }
+            case 'x' =>{
+                println("jo test verstanden")
+            }
             case default =>{
                 ctrl.handle(wrongInstructionEvent())
             }

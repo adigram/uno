@@ -1,9 +1,8 @@
 package de.htwg.se.uno.model
 import de.htwg.se.uno.uno
-trait Event
-
-
-case class selectionEvent() extends Event {
+trait Event()
+      
+class selectionEvent() extends Event() {
   def selection: Unit = {
     println("Possible instructions:")
     printf("\tl = leave\n")
@@ -11,10 +10,13 @@ case class selectionEvent() extends Event {
     printf("\tr = Put a Card from Hand into GameBoard\n")
     printf("\tu = Call UNO\n")
     printf("\tw = Call UNO UNO\n")
-    
-    
+       
   }
 }
+
+case class callUno() extends Event
+case class callUnoUno() extends Event
+case class nextPlayerEvent() extends Event
 
 case class startEvent() extends Event {
   def start: Unit = {

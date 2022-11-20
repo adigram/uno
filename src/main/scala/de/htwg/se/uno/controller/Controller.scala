@@ -21,7 +21,7 @@ class Controller(var game: Game) extends Observable{
         notifyObservers
 
     def handle(event: Event): Unit = {
-        state.handle(event)
+        game.handle(event)
     }
     def takeCard(): Unit = {
         takeCardCreato.apply(CardDeck.deck)

@@ -1,22 +1,25 @@
 package de.htwg.se.uno.model
 
-object state {
-      var state = startEvent().start 
-    
-      def handle(e: Event ) = {
+class state (
+    currentPlayer:Int,
+    players:List[Player],
+    direction:Boolean,
+    deck:List[Card],
+    stack:List[Card]){
+
+    def handle(e:Event):state = {
         e match {
-            case a: startEvent => state = startEvent().start
-            case b: selectionEvent => state = selectionEvent().selection
-            case c: wrongInstructionEvent =>state = wrongInstructionEvent().wrongInstruction
-            case d: callUnoEvent => state = callUnoEvent().callUno
-            case e: takeCardFromStackEvent => state = takeCardFromStackEvent().takeCardFromStack
-            case f: roundFinishedEvent => state = roundFinishedEvent().roundFinished
-            case g: selectCardEvent => state = selectCardEvent().selectCard
-            case h: selectedWrongCardEvent => state = selectedWrongCardEvent().selectedWrongCard
-            case i: leaveGameEvent => state =  leaveGameEvent().leaveGame
+            case wrongInstructionEvent => {println("Erneut eingeben");this}
+            case callUno => {println("Uno");this}
+            case callUnoUno => {println("Uno Uno");this}
+            case nextPlayerEvent => nextPlayer()
         }
-        state 
     }
+
+    def nextPlayer():state = {
+        new state(this.currentPlayer + 1,this.players,this.direction,this.deck,this.stack)
+    }
+    
    
 }
   

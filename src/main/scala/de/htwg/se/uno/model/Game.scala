@@ -13,6 +13,8 @@ import de.htwg.se.uno.model
             case false => currentPlayer = (currentPlayer-2) % uno.controller.players.length
         }
     }
+
+    
     def roundFinished()={  
         currentPlayer += 1
         setCurrentPlayer()

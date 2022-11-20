@@ -4,7 +4,7 @@ import view._
 import controller._
 
 object uno{
-  val controller = new Controller(new Game)
+  val controller = new Controller(new State())
   
   val tui = TUI(controller)
   @main def main():Unit ={ 
