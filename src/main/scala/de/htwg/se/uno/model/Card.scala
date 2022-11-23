@@ -16,7 +16,7 @@ package  de.htwg.se.uno.model
 //                                                         || cardHand.value == Value.Wild || cardHand.value == Value.WildFour 
 // }
 
-trait Card(){
+case class Card(){
     def action:Unit = println("test")
 }
 

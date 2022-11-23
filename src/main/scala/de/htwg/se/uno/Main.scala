@@ -4,9 +4,9 @@ import view._
 import controller._
 
 object uno{
-  val controller = new Controller()
+  //val controller = new Controller()
   
-  val tui = TUI(controller)
+  //val tui = TUI(controller)
   @main def main():Unit ={
     val test = new Card with wild with draw(2)
     println(test.action)
