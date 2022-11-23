@@ -15,40 +15,20 @@ class TUI(ctrl:Controller ) extends Observer{
         ctrl.createPlayers(readLine().toInt,getName)
         ctrl.printPlayers()
         ctrl.printFirstcard()
-        
     }
 
-    def input(s: Unit) = {
-        
-        val input =  readLine().toString()
+    val regexUno    = """^[U|u]no$""".r
+    val regexUnoUno = """^[U|u]no ?[U|u]no$""".r
+    val regexQuit   = """^[Q|q]uit$""".r
 
-        input(0) match {
-            case 's'=> {
-                
-                ctrl.takeCard()
-                ctrl.handle(takeCardFromStackEvent())
-                ctrl.handle(roundFinishedEvent())
-            }
-            case 'r' => {
-                ctrl.handle(selectCardEvent())
-                ctrl.handle(ctrl.handleRequest(readLine()))
+    def input() = {
+        val input =  readLine()
 
-            }
-            case 'u' => {
-                
-            }
-            case 'w' =>{
-
-            }
-            case 'l' => {
-                ctrl.handle(leaveGameEvent())
-            }
-            case 'x' =>{
-                println("jo test verstanden")
-            }
-            case default =>{
-                ctrl.handle(wrongInstructionEvent())
-            }
+        input match {
+            case "u" | regexUno()    => println("Uno!")
+            case "uu"| regexUnoUno() => println("Uno Uno!")
+            case "q" | regexQuit()   => System.exit(0)
+            case _ => println("Wrong Input pls try again")
          }
     }
 
