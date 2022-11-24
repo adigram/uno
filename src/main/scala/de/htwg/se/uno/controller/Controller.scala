@@ -20,15 +20,16 @@ class Controller() extends Observable{
         statement = State.players.map(k => k.toString).mkString
         notifyObservers
 
-    def takeCard(): Unit = print("takecard")
-        //takeCardCreato.apply(CardDeck.deck)
-    def handle(event: Event) = {
+   
+    def handle(event: Event): String = {
         State = State.handle(event)
         statement = State.output
         notifyObservers
+        return statement
     }
 
-    def printFirstcard() = 
+    def printFirstcard(): String = 
         statement =  "Stack: " + State.stack(0).toString
         notifyObservers
+        return statement
 }   
