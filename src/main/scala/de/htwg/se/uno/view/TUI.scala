@@ -35,8 +35,12 @@ class TUI(ctrl:Controller ) extends Observer{
 
         input match {
             case "t" => ctrl.handle(takeCardFromDeckEvent())
-            case "r" => {println(select)
-                        ctrl.handle(dropCardEvent())}
+            case "r" => {
+                         println(select)
+                         val selectedCard = toInt(readLine())
+                         if(selectedCard>=0)
+                            ctrl.handle(dropCardEvent(selectedCard))
+                        }
             case "u" | regexUno()    => println("Uno!")
             case "uu"| regexUnoUno() => println("Uno Uno!")
             case "q" | regexQuit()   => System.exit(0)
@@ -53,5 +57,14 @@ class TUI(ctrl:Controller ) extends Observer{
     }
 
     override def update: Unit = println(ctrl.statement)
+
+    def toInt(s: String): Int = {
+         try {
+            s.toInt
+         } 
+         catch {
+            case e: Exception => -1
+         }
+    }
   
 }
