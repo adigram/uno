@@ -1,7 +1,9 @@
 package de.htwg.se.uno.model
-import de.htwg.se.uno.uno
+
 
 trait Event()
+case class takeCardFromDeckEvent() extends Event
+case class dropCardEvent() extends Event
       
 // class selectionEvent() extends Event() {
 //   def selection: Unit = {
