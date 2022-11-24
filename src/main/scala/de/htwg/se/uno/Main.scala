@@ -7,9 +7,8 @@ object uno{
   val controller = new Controller()
   val tui = TUI(controller)
   @main def main():Unit ={
-   // val test = new Card with wild with draw(2)
     tui.start
-    while (true) { //endless while for test TODO
+    while (true) {
        tui.input()
    }
   }

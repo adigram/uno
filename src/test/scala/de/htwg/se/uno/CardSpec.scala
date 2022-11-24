@@ -32,7 +32,7 @@ class CardSpec extends AnyWordSpec with Matchers {
     }
     "when its equal" should {
       "be true" in{ 
-        card.equal(card,Card(Value.Nine, Colour.Red) ) should be (true)
+        card.equal(Card(Value.Nine, Colour.Red) ) should be (true)
       }
     }
     }

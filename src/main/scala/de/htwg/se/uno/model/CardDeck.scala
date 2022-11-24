@@ -21,5 +21,4 @@ object CardDeck {
 
      def takeCard(n: Int)=  {var split = CardDeck.deck.splitAt(n); this.deck = split._2; split._1}
 
-        
 }
