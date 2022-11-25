@@ -1,6 +1,8 @@
 package  de.htwg.se.uno.model 
- case class Player(hand: List[Card], name: String){
+import de.htwg.se.uno.uno
+
+case class Player(hand: List[Card], name: String){
     override def toString = 
-    "Hand Player: "  + name +"\n" + hand.map(k=> k.toString).mkString("  |  ")  + "\n"
- }
+    "Hand Player: "  + name +"\n" + hand.map(k=> k.toString).mkString("  |  ")  + "\n" 
+}
     

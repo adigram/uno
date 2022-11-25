@@ -16,7 +16,7 @@ val random:( Int => Int) = k => randomList.apply(k).next()
 class CardSpec extends AnyWordSpec with Matchers {
 
    "A Card" when {
-    val card = Card(Value.Nine, Colour.Red, 14)
+    val card = Card(Value.Nine, Colour.Red)
     "when its created" should {
       "have Value Nine" in {
         card.value should be(Value.Nine)
@@ -32,7 +32,7 @@ class CardSpec extends AnyWordSpec with Matchers {
     }
     "when its equal" should {
       "be true" in{ 
-        card.equal(card,Card(Value.Nine, Colour.Red, 14) ) should be (true)
+        card.equal(Card(Value.Nine, Colour.Red) ) should be (true)
       }
     }
     }

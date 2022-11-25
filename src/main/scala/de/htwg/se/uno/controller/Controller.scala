@@ -3,23 +3,33 @@ package de.htwg.se.uno.controller
 import de.htwg.se.uno.util._
 import de.htwg.se.uno.model._
 import scala.util.Random as random 
+import de.htwg.se.uno.uno
 
-class Controller extends Observable{
+class Controller() extends Observable{
     var statement = ""
-
-    var players = List[(Player)]()
-
+    //var players = List[(Player)]()
+    var State = state(0,List[Player](),true,List[Card](),List[Card](),"")
     def createGame() =
         CardDeck.shuffle(random)
-
+        State = State.copy(stack = (CardDeck.takeCard(1)))
+        
     def createPlayers(players: Int,getName:(Unit => String)) = 
-        this.players = (0 until players).map(k =>Player(CardDeck.takeCard(7),getName(()))).toList
+        State = State.copy(deck = CardDeck.deck, players = (0 until players).map(k =>Player(CardDeck.takeCard(7),getName(()))).toList )
 
-    def printPlayers() = 
-        statement = players.map(k => k.toString).mkString
+    def printPlayers() =  
+        statement = State.players.map(k => k.toString).mkString
         notifyObservers
-    
-    def printFirstcard() = 
-        statement =  "Stack: " + CardDeck.takeCard(1).mkString
+
+   
+    def handle(event: Event): String = {
+        State = State.handle(event)
+        statement = State.output
         notifyObservers
+        return statement
+    }
+
+    def printFirstcard(): String = 
+        statement =  "Stack: " + State.stack(0).toString
+        notifyObservers
+        return statement
 }   

@@ -8,7 +8,7 @@ class CardDeckSpec extends AnyWordSpec with Matchers{
 
     "take Card" should{
         "split the deck" in {
-            CardDeck.takeCard(2) should be(List(Card(Value.Zero,Colour.Red,0),Card(Value.Zero,Colour.Green,1)))
+            CardDeck.takeCard(2) should not be(List(Card(Value.Five,Colour.Blue),Card(Value.Three,Colour.Blue)))
         }
     }
     "shuffle" should{
