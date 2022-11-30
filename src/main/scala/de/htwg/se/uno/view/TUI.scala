@@ -5,17 +5,16 @@ import de.htwg.se.uno.util._
 import de.htwg.se.uno.model._
 import de.htwg.se.uno.uno
 
-class TUI(ctrl:Controller ) extends Observer{
+class TUI(ctrl:Controller) extends Observer{
 
     ctrl.add(this)
     ctrl.createGame()
-    
+
     def start = {
         println("Hello! Please enter the amount of Player.")
         ctrl.createPlayers(readLine().toInt,getName)
         ctrl.printPlayers()
-        ctrl.printFirstcard()
-        
+        ctrl.printFirstcard() 
     }
 
     val regexUno    = """^[U|u]no$""".r
@@ -26,24 +25,30 @@ class TUI(ctrl:Controller ) extends Observer{
                       "\tr = Put a Card from Hand into GameBoard\n" +
                       "\tu or uno = Call UNO\n" +
                       "\tuu or uno uno = Call UNO UNO\n"+
-                      "\tq or quit = Leave the game\n"
-    val select = "Please Select the Crad you want to drop.\nThe first card has the index 0."                 
+                      "\tq or quit = Leave the game\n"+
+                      "\tundo = State backwards\n"+
+                      "\tredo = repeat State\n"
+                      
+    val select = "Please Select the Crad you want to drop.\nThe first card has the index 0."         
+            
     def input() = {
         println(instruction)
         val input =  readLine()
 
 
         input match {
-            case "t" => ctrl.handle(takeCardFromDeckEvent())
+            case "t" => ctrl.doStep(takeCardFromDeckEvent())
             case "r" => {
                          println(select)
                          val selectedCard = toInt(readLine())
                          if(selectedCard>=0)
-                            ctrl.handle(dropCardEvent(selectedCard))
+                            ctrl.doStep(dropCardEvent(selectedCard))
                         }
             case "u" | regexUno()    => println("Uno!")
             case "uu"| regexUnoUno() => println("Uno Uno!")
             case "q" | regexQuit()   => System.exit(0)
+            case "undo" => ctrl.undo()
+            case "redo" => ctrl.redo()
             case _ => println("Wrong Input pls try again")
          }
     }

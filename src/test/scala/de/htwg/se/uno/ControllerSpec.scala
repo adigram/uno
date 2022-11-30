@@ -25,14 +25,14 @@ class ControllerSpec extends AnyWordSpec with Matchers {
     "handle" should{
         "return the String" in {
             ctrl.State = ctrl.State.copy(players = List(Player(List(Card(Value.Nine,Colour.Red),Card(Value.One,Colour.Green)),"Jens"),Player(List(Card(Value.Nine,Colour.Red),Card(Value.One,Colour.Green)),"Jens")))
-            ctrl.handle(takeCardFromDeckEvent()) should be("\nNow its the round of: Hand Player: Jens\n🟥  9  |  🟩  1\n")
+            ctrl.doStep(takeCardFromDeckEvent()) should be("\nNow its the round of: Hand Player: Jens\n🟥  9  |  🟩  1\n")
         }
     }
 
     "handleSmallerSix" should{
         "return the String" in {
             ctrl.State = ctrl.State.copy(deck = List(Card(Value.Nine,Colour.Red)),players = List(Player(List(Card(Value.Nine,Colour.Red),Card(Value.One,Colour.Green)),"Jens"),Player(List(Card(Value.Nine,Colour.Red),Card(Value.One,Colour.Green)),"Jens")))
-            ctrl.handle(takeCardFromDeckEvent()) should be("\nNow its the round of: Hand Player: Jens\n🟥  9  |  🟩  1\n")
+            ctrl.doStep(takeCardFromDeckEvent()) should be("\nNow its the round of: Hand Player: Jens\n🟥  9  |  🟩  1\n")
         }
     }
 
@@ -40,14 +40,14 @@ class ControllerSpec extends AnyWordSpec with Matchers {
     "handleDropCard" should{
         "return the String" in {
             ctrl.State = ctrl.State.copy(deck = List(Card(Value.Nine,Colour.Red)),players = List(Player(List(Card(Value.Nine,Colour.Red),Card(Value.One,Colour.Green)),"Jens"),Player(List(Card(Value.Nine,Colour.Red),Card(Value.One,Colour.Green)),"Jens")))
-            ctrl.handle(dropCardEvent(10)) should be("The Card you selected doesn't exist in your hand.\n")
+            ctrl.doStep(dropCardEvent(10)) should be("The Card you selected doesn't exist in your hand.\n")
         }
     }
 
     "handleDropCardWrong" should{
         "return the String" in {
             ctrl.State = ctrl.State.copy(deck = List(Card(Value.Nine,Colour.Red)),players = List(Player(List(Card(Value.Nine,Colour.Red),Card(Value.One,Colour.Green)),"Jens"),Player(List(Card(Value.Nine,Colour.Red),Card(Value.One,Colour.Green)),"Jens")))
-            ctrl.handle(dropCardEvent(1)) should be("The Card you selected doesn't doesn't macht with card on the stack.\n")
+            ctrl.doStep(dropCardEvent(1)) should be("The Card you selected doesn't doesn't macht with card on the stack.\n")
         }
     }
 }

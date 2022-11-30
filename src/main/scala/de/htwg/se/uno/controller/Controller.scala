@@ -2,13 +2,15 @@ package de.htwg.se.uno.controller
 
 import de.htwg.se.uno.util._
 import de.htwg.se.uno.model._
+
 import scala.util.Random as random 
 import de.htwg.se.uno.uno
 
 class Controller() extends Observable{
     var statement = ""
-    //var players = List[(Player)]()
     var State = state(0,List[Player](),true,List[Card](),List[Card](),"")
+    val undoManager = new UndoManager
+    
     def createGame() =
         CardDeck.shuffle(random)
         State = State.copy(stack = (CardDeck.takeCard(1)))
@@ -21,12 +23,18 @@ class Controller() extends Observable{
         notifyObservers
 
    
-    def handle(event: Event): String = {
-        State = State.handle(event)
-        statement = State.output
+    def doStep(event: Event): String = {
+        undoManager.doStep(new SetCommand(event,this))
         notifyObservers
         return statement
     }
+
+    def undo(): Unit =
+        undoManager.undoStep
+
+    def redo(): Unit =
+        undoManager.redoStep
+        notifyObservers
 
     def printFirstcard(): String = 
         statement =  "Stack: " + State.stack(0).toString
