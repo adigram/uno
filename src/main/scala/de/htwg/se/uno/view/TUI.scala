@@ -28,7 +28,7 @@ class TUI(ctrl:Controller) extends Observer{
                       "\tq or quit = Leave the game\n"+
                       "\tundo = State backwards\n"+
                       "\tredo = repeat State\n"
-                      
+
     val select = "Please Select the Crad you want to drop.\nThe first card has the index 0."         
             
     def input() = {
