@@ -4,6 +4,9 @@ import de.htwg.se.uno.controller._
 import de.htwg.se.uno.util._
 import de.htwg.se.uno.model._
 import de.htwg.se.uno.uno
+import scala.util.Try
+import scala.util.Success
+import scala.util.Failure
 
 class TUI(ctrl:Controller) extends Observer{
 
@@ -41,8 +44,7 @@ class TUI(ctrl:Controller) extends Observer{
             case "r" => {
                          println(select)
                          val selectedCard = toInt(readLine())
-                         if(selectedCard>=0)
-                            ctrl.doStep(dropCardEvent(selectedCard))
+                         ctrl.doStep(dropCardEvent(selectedCard))
                         }
             case "u" | regexUno()    => println("Uno!")
             case "uu"| regexUnoUno() => println("Uno Uno!")
@@ -64,11 +66,9 @@ class TUI(ctrl:Controller) extends Observer{
     override def update: Unit = println(ctrl.statement)
 
     def toInt(s: String): Int = {
-         try {
-            s.toInt
-         } 
-         catch {
-            case e: Exception => -1
+         Try(s.toInt) match{
+            case Success(value) => s.toInt
+            case Failure(exception) => -1
          }
     }
   
