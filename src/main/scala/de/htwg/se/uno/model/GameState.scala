@@ -26,7 +26,7 @@ case class state (
 
     def dropCard(chosenCard:Option[Int]): state ={
         chosenCard match {
-            case None => this.copy(output = "Your Input wasn#nt a number.\n") 
+            case None => this.copy(output = "Your Input wasn'nt a number.\n") 
             case Some(chosenCard) if chosenCard >= 0 && chosenCard < this.players(this.currentPlayer).hand.length =>
                  CardCheck(this.players(this.currentPlayer).hand(chosenCard).equal(this.stack(0)),this.players(this.currentPlayer).hand(chosenCard))
             case _  =>    this.copy(output = "The Card you selected doesn't exist in your hand.\n")

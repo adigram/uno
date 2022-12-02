@@ -11,7 +11,8 @@ class SetCommand(input: Event,ctrl:Controller) extends Command {
   override def doStep(): Unit =
     val result = ctrl.State.handle(input)
     ctrl.State = result
-    ctrl.statement = state.output
+    ctrl.statement = result.output
+    
 
   override def undoStep(): Unit =
     ctrl.State = state
