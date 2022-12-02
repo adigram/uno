@@ -45,16 +45,17 @@ class TUI(ctrl:Controller) extends Observer{
                         }
             case "r" => {
                         println(select)
-                        val x = toInt(readLine())
-                        ctrl.doStep(dropCardEvent(x.getOrElse(-1)))
+                        ctrl.doStep(dropCardEvent(toInt(readLine())))
                         }
             case "u" | regexUno()    => println("Uno!")
             case "uu"| regexUnoUno() => println("Uno Uno!")
             case "q" | regexQuit()   => System.exit(0)
             case "undo" => ctrl.undo()
+
             case "redo" => ctrl.redo()
             case _ => println("Wrong Input pls try again")
          }
+         
     }
 
     var scan:(Unit => String) = Unit =>  scala.io.StdIn.readLine()
@@ -70,7 +71,7 @@ class TUI(ctrl:Controller) extends Observer{
     def toInt(s: String): Option[Int] = {
          Try(s.toInt) match{
             case Success(value) => Some(s.toInt)
-            case Failure(exception) => {println("Input a Number");None}
+            case Failure(exception) => None
          }
     }
   
