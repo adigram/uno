@@ -13,6 +13,7 @@ object takeCardStrategy{
         val players = State.players.updated(State.currentPlayer, Player(State.players(State.currentPlayer).hand ++ card,
                                             State.players(State.currentPlayer).name))
         
+        
         (players, deck, State.stack)
     }
 

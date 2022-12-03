@@ -13,7 +13,7 @@ class ConcreteBridge extends gameBridge{
             case true =>  player % State.players.length
             case false => (player-2) % State.players.length
         }
-        State.copy(currentPlayer = newPlayer, output = "\nNow its the round of: \n" + State.players(newPlayer).toString)
+        State.copy(currentPlayer = newPlayer, output = "\nNow its the round of: \n" + State.players(newPlayer).toString + "Stack: " + State.stack(0).toString + "\n")
      }
   
 }
