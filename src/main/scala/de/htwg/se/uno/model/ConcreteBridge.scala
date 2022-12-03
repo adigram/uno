@@ -7,11 +7,13 @@ class ConcreteBridge extends gameBridge{
         return state(State.currentPlayer, player, State.direction, newDeck, newStack, output)
     }
     def nextPlayer(State : state ): state ={
-        val player = State.currentPlayer +1
-
+        printf(State.direction.toString)
         val newPlayer = State.direction match {   
-            case true =>  player % State.players.length
-            case false => (player-2) % State.players.length
+            case true =>  (State.currentPlayer +1) % State.players.length
+            case false => {
+                val player = (State.currentPlayer-1) % State.players.length
+                if(player == -1) State.players.length-1 else player 
+            }
         }
         State.copy(currentPlayer = newPlayer, output = "\nNow its the round of: \n" + State.players(newPlayer).toString + "Stack: " + State.stack(0).toString + "\n")
      }

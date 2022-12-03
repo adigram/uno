@@ -51,22 +51,39 @@ case class state (
 
     def dropLastCard(chosenCard:Option[Int]): state ={
         chosenCard match {
-            case None => {
-                            val hand = this.players(this.currentPlayer).hand
-                            val stack = List(hand.last) ++ this.stack
-                            val playerCurrent = Player(this.players(this.currentPlayer).hand.zipWithIndex.filter(_._2 != (hand.length-1)).map(_._1),this.players(this.currentPlayer).name)
-                            val players = this.players.updated(this.currentPlayer, playerCurrent)
-                            this.copy(players = players, stack = stack).handle(nextPlayerEvent()) 
-                         } 
+            case None => {  
+                val cardValue = this.players(this.currentPlayer).hand.last.value
+                val cardNumber = this.players(this.currentPlayer).hand.length-1
+                cardValue.toString match {
+                    //case Value.Skip     =>
+                    case "🔃"            => this.dropNormalCard(cardNumber).copy(direction = if(this.direction) false else true).handle(nextPlayerEvent())
+                    //case Value.DrawTwo  =>
+                    //case Value.Wild     =>
+                    //case Value.WildFour =>
+                    case default        => this.dropNormalCard(cardNumber).handle(nextPlayerEvent())
+                                        }                                                          
+                                }   
+                          
             case Some(chosenCard) => {
-                            val hand = this.players(this.currentPlayer).hand
-                            val stack = List(hand(chosenCard)) ++ this.stack
-                            val playerCurrent = Player(this.players(this.currentPlayer).hand.zipWithIndex.filter(_._2 != chosenCard).map(_._1),this.players(this.currentPlayer).name)
-                            val players = this.players.updated(this.currentPlayer, playerCurrent)
-                            this.copy(players = players, stack = stack).handle(nextPlayerEvent()) 
+                 val cardValue = this.players(this.currentPlayer).hand(chosenCard).value
+                 cardValue.toString match {
+                    case "🔃"            => this.dropNormalCard(chosenCard).copy(direction = if(this.direction) false else true).handle(nextPlayerEvent())
+                            
+                    case default         =>     this.dropNormalCard(chosenCard).handle(nextPlayerEvent()) 
                          }  
             
-        }  
+                }
+            }
+        }
+    
+    
+    def dropNormalCard(CardNumber: Int): state = {
+        val hand = this.players(this.currentPlayer).hand
+        val stack = List(hand(CardNumber)) ++ this.stack
+        val playerCurrent = Player(this.players(this.currentPlayer).hand.zipWithIndex.filter(_._2 != CardNumber).map(_._1),this.players(this.currentPlayer).name)
+        val players = this.players.updated(this.currentPlayer, playerCurrent)
+        this.copy(players = players, stack = stack)
+
     }
 
 }
