@@ -22,9 +22,9 @@ case class state (
                                              else
                                                 state.handle(nextPlayerEvent()) 
                                             }    
-            case e:dropCardEvent         => dropCard(e.chosenCard)
+            case e:dropCardEvent         => dropCard(e.chosenCard, e.unoFlag)
             case e:nextPlayerEvent       => nextPlayer()
-            case e:dropLastCardEvent     => dropLastCard(e.dropChosenCard)
+            case e:dropLastCardEvent     => dropLastCard(e.dropChosenCard, e.unoFlag)
             case e:chooseColourEvent     => chooseColour(e.chooseColour)
             case e:UnoUnoEvent           => UnoUno()
         }
@@ -39,48 +39,48 @@ case class state (
             this.copy(output = "You are not able to say Uno Uno\n")
     }
 
-    def dropCard(chosenCard:Option[Int]): state ={
+    def dropCard(chosenCard:Option[Int],unoFlag:Boolean): state ={
         chosenCard match {
             case None => this.copy(output = "Your Input wasn'nt a number.\n") 
             case Some(chosenCard) if chosenCard >= 0 && chosenCard < this.players(this.currentPlayer).hand.length =>
-                 CardCheck(this.players(this.currentPlayer).hand(chosenCard).equal(this.stack(0)),chosenCard)
+                 CardCheck(this.players(this.currentPlayer).hand(chosenCard).equal(this.stack(0)),chosenCard,unoFlag)
             case _  =>    this.copy(output = "The Card you selected doesn't exist in your hand.\n")
             
             
         }  
     }
        
-    def CardCheck(input: Boolean, selection: Int) : state =  {
+    def CardCheck(input: Boolean, selection: Int, unoFlag:Boolean) : state =  {
         input match {
-            case true => return this.dropLastCard(Some(selection))
+            case true => return this.dropLastCard(Some(selection), unoFlag)
             case false =>  return this.copy(output = "The Card you selected doesn't doesn't macht with card on the stack.\n") 
         }
     }
 
-    def dropLastCard(chosenCard:Option[Int]): state ={
+    def dropLastCard(chosenCard:Option[Int],unoFlag:Boolean): state ={
         chosenCard match {
             case None => {  
                 val cardValue = this.players(this.currentPlayer).hand.last.value
                 val cardNumber = this.players(this.currentPlayer).hand.length-1
                 cardValue.toString match {
-                    case "🚫"    => this.dropNormalCard(cardNumber).copy(currentPlayer = if(this.direction) (this.currentPlayer + 1)  else (this.currentPlayer - 1)).handle(nextPlayerEvent())
-                    case "🔃"    => this.dropNormalCard(cardNumber).copy(direction = if(this.direction) false else true).handle(nextPlayerEvent())
-                    case "+2"    => this.dropNormalCard(cardNumber).handle(nextPlayerEvent()).takeCardFromDeck().takeCardFromDeck()
-                    case "🌈"    => this.dropNormalCard(cardNumber).copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n")
-                    case "+4"    => this.dropNormalCard(cardNumber).handle(nextPlayerEvent()).takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n" )
-                    case default => this.dropNormalCard(cardNumber).handle(nextPlayerEvent())
+                    case "🚫"    => this.dropNormalCard(cardNumber, unoFlag).copy(currentPlayer = if(this.direction) (this.currentPlayer + 1)  else (this.currentPlayer - 1)).handle(nextPlayerEvent())
+                    case "🔃"    => this.dropNormalCard(cardNumber, unoFlag).copy(direction = if(this.direction) false else true).handle(nextPlayerEvent())
+                    case "+2"    => this.dropNormalCard(cardNumber, unoFlag).handle(nextPlayerEvent()).takeCardFromDeck().takeCardFromDeck()
+                    case "🌈"    => this.dropNormalCard(cardNumber, unoFlag).copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n")
+                    case "+4"    => this.dropNormalCard(cardNumber, unoFlag).handle(nextPlayerEvent()).takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n" )
+                    case default => this.dropNormalCard(cardNumber, unoFlag).handle(nextPlayerEvent())
                                         }                                                          
                                 }   
                           
             case Some(chosenCard) => {
                  val cardValue = this.players(this.currentPlayer).hand(chosenCard).value
                  cardValue.toString match {
-                    case "🚫"    => this.dropNormalCard(chosenCard).copy(currentPlayer = if(this.direction) (this.currentPlayer + 1)  else (this.currentPlayer - 1)).handle(nextPlayerEvent())
-                    case "🔃"    => this.dropNormalCard(chosenCard).copy(direction = if(this.direction) false else true).handle(nextPlayerEvent())
-                    case "+2"     => this.dropNormalCard(chosenCard).handle(nextPlayerEvent()).takeCardFromDeck().takeCardFromDeck()
-                    case "🌈"    => this.dropNormalCard(chosenCard).nextPlayer().copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n")
-                    case "+4"    => this.dropNormalCard(chosenCard).nextPlayer().takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n" )
-                    case default => this.dropNormalCard(chosenCard).handle(nextPlayerEvent()) 
+                    case "🚫"    => this.dropNormalCard(chosenCard, unoFlag).copy(currentPlayer = if(this.direction) (this.currentPlayer + 1)  else (this.currentPlayer - 1)).handle(nextPlayerEvent())
+                    case "🔃"    => this.dropNormalCard(chosenCard, unoFlag).copy(direction = if(this.direction) false else true).handle(nextPlayerEvent())
+                    case "+2"     => this.dropNormalCard(chosenCard,unoFlag).handle(nextPlayerEvent()).takeCardFromDeck().takeCardFromDeck()
+                    case "🌈"    => this.dropNormalCard(chosenCard, unoFlag).nextPlayer().copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n")
+                    case "+4"    => this.dropNormalCard(chosenCard,unoFlag).nextPlayer().takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n" )
+                    case default => this.dropNormalCard(chosenCard,unoFlag).handle(nextPlayerEvent()) 
                          }  
             
                 }
@@ -88,13 +88,14 @@ case class state (
         }
     
     
-    def dropNormalCard(CardNumber: Int): state = {
+    def dropNormalCard(CardNumber: Int, unoFlag:Boolean): state = {
         val hand = this.players(this.currentPlayer).hand
         val stack = List(hand(CardNumber)) ++ this.stack
         val playerCurrent = Player(this.players(this.currentPlayer).hand.zipWithIndex.filter(_._2 != CardNumber).map(_._1),this.players(this.currentPlayer).name)
         val players = this.players.updated(this.currentPlayer, playerCurrent)
-        this.copy(players = players, stack = stack)
-
+        if(playerCurrent.hand.length == 1 && unoFlag == false) 
+            this.copy(players = players, stack = stack).takeCardFromDeck()
+        else this.copy(players = players, stack = stack)
     }
 
     def chooseColour(colourNumber: Option[Int]): state ={ 

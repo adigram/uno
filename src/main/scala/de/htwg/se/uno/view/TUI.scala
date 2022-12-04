@@ -29,17 +29,18 @@ class TUI(ctrl:Controller) extends Observer{
             case "t" => {
                          if(ctrl.doStep(takeCardFromDeckEvent()).apply(0).equals('H'))
                             readLine() match {
-                                case "y" => ctrl.doStep(dropLastCardEvent(None))
+                                case "y" => if(ctrl.doStep(dropLastCardEvent(None, true)).apply(0).equals('W'))
+                                            ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
                                 case "n" => ctrl.doStep(nextPlayerEvent())
                                 case _   => ctrl.doStep(nextPlayerEvent())
                             }
                         }
             case "r" => {
                         println(select)
-                        if(ctrl.doStep(dropCardEvent(toInt(readLine()))).apply(0).equals('W'))
+                        if(ctrl.doStep(dropCardEvent(toInt(readLine()), false)).apply(0).equals('W'))
                             ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
                         }
-            case "u" | regexUno()    => println("Uno!")
+            case "u" | regexUno()    => println(select);ctrl.doStep(dropCardEvent(toInt(readLine()), true))
             case "uu"| regexUnoUno() => if(ctrl.doStep(UnoUnoEvent()).apply(0).equals('T')) System.exit(0)
             case "q" | regexQuit()   => System.exit(0)
             case "undo" => ctrl.undo()
