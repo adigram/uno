@@ -36,10 +36,11 @@ class TUI(ctrl:Controller) extends Observer{
                         }
             case "r" => {
                         println(select)
-                        ctrl.doStep(dropCardEvent(toInt(readLine())))
+                        if(ctrl.doStep(dropCardEvent(toInt(readLine()))).apply(0).equals('W'))
+                            ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
                         }
             case "u" | regexUno()    => println("Uno!")
-            case "uu"| regexUnoUno() => println("Uno Uno!")
+            case "uu"| regexUnoUno() => if(ctrl.doStep(UnoUnoEvent()).apply(0).equals('T')) System.exit(0)
             case "q" | regexQuit()   => System.exit(0)
             case "undo" => ctrl.undo()
 
