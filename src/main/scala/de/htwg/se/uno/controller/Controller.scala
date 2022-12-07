@@ -5,10 +5,9 @@ import de.htwg.se.uno.model._
 import scala.util.Random as random 
 import de.htwg.se.uno.uno
 
-class Controller() extends Observable{
+object Controller extends Observable{
     var statement = ""
-    //var players = List[(Player)]()
-    var State = state(0,List[Player](),true,List[Card](),List[Card](),"")
+    var State = state(0,List[Player](),true,List[Card](),List[Card](),"",new Event_createGame())
     def createGame() =
         CardDeck.shuffle(random)
         State = State.copy(stack = (CardDeck.takeCard(1)))
@@ -26,6 +25,10 @@ class Controller() extends Observable{
         statement = State.output
         notifyObservers
         return statement
+    }
+
+    def request(command:Command):Unit = {
+        //TODO
     }
 
     def printFirstcard(): String = 

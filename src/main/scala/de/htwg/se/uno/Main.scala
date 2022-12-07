@@ -4,8 +4,7 @@ import view._
 import controller._
 
 object uno{
-  val controller = new Controller()
-  val tui = TUI(controller)
+  val tui = TUI()
   @main def main():Unit ={
     tui.start
     while (true) {

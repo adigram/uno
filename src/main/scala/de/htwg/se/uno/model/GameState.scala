@@ -8,21 +8,20 @@ case class state (
     direction:Boolean,
     deck:List[Card],
     stack:List[Card],
-    output: String
+    output: String,
+    event: Event
     ){
     
-    val bridge: gameBridge = new ConcreteBridge
-
     def handle(e:Event):state = {
         e match {
-            case e:takeCardFromDeckEvent => {takeCardFromDeck().nextPlayer()}    
-            case e:dropCardEvent         => dropCard(e.chosenCard)
-            case e:nextPlayerEvent       => nextPlayer()
+            case e:Event_takeCard   => {takeCardFromDeck().nextPlayer()}    
+            case e:Event_dropCard   => dropCard(e.chosenCard)
+            case e:Event_nextPlayer => nextPlayer()
         }
     }
 
-    def takeCardFromDeck(): state = bridge.takeCardFromDeck(this)
-    def nextPlayer(): state = bridge.nextPlayer(this)
+    def takeCardFromDeck(): state = this //TODO
+    def nextPlayer(): state = this //TODO
 
     def dropCard(chosenCard:Int): state ={
         chosenCard match {

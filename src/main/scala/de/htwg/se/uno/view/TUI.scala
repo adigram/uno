@@ -5,50 +5,47 @@ import de.htwg.se.uno.util._
 import de.htwg.se.uno.model._
 import de.htwg.se.uno.uno
 
-class TUI(ctrl:Controller ) extends Observer{
+class TUI extends Observer{
 
-    ctrl.add(this)
-    ctrl.createGame()
+    Controller.add(this)
+    Controller.createGame()
     
     def start = {
-        println("Hello! Please enter the amount of Player.")
-        ctrl.createPlayers(readLine().toInt,getName)
-        ctrl.printPlayers()
-        ctrl.printFirstcard()
-        
+        println("How many Players?")
+        Controller.createPlayers(scanInt(()),getName)
+        println(instruction)
+        Controller.printPlayers()
+        Controller.printFirstcard()  
     }
-
-    val regexUno    = """^[U|u]no$""".r
-    val regexUnoUno = """^[U|u]no ?[U|u]no$""".r
-    val regexQuit   = """^[Q|q]uit$""".r
 
     val instruction = "Possible Instructions:\n\tt = Take a new Card from Stack\n" +
                       "\tr = Put a Card from Hand into GameBoard\n" +
                       "\tu or uno = Call UNO\n" +
                       "\tuu or uno uno = Call UNO UNO\n"+
                       "\tq or quit = Leave the game\n"
-    val select = "Please Select the Crad you want to drop.\nThe first card has the index 0."                 
+    val select = "Please Select the Crad you want to drop.\nThe first card has the index 0." 
+
+    val regexUno    = """^[U|u]no$""".r
+    val regexUnoUno = """^[U|u]no ?[U|u]no$""".r
+    val regexHelp   = """^[H|h]elp$""".r
+    val regexQuit   = """^[Q|q]uit$""".r
+
     def input() = {
-        println(instruction)
         val input =  readLine()
 
-
         input match {
-            case "t" => ctrl.handle(takeCardFromDeckEvent())
-            case "r" => {
-                         println(select)
-                         val selectedCard = toInt(readLine())
-                         if(selectedCard>=0)
-                            ctrl.handle(dropCardEvent(selectedCard))
-                        }
-            case "u" | regexUno()    => println("Uno!")
-            case "uu"| regexUnoUno() => println("Uno Uno!")
+            case "t"                 => Controller.request(TakeCard())
+            case "r"                 => Controller.request(PlayCard(scanInt(())))
+            case "u" | regexUno()    => Controller.request(Uno())
+            case "uu"| regexUnoUno() => Controller.request(UnoUno())
+            case "h" | regexHelp()   => println(instruction)
             case "q" | regexQuit()   => System.exit(0)
-            case _ => println("Wrong Input pls try again")
+            case _                   => println("Wrong Input pls try again")
          }
     }
 
     var scan:(Unit => String) = Unit =>  scala.io.StdIn.readLine()
+    var scanInt:(Unit => Int) = Unit =>  scala.io.StdIn.readInt()
 
     val getName:(Unit => String) = Unit => {
         println("Please enter your Name:")
@@ -56,15 +53,6 @@ class TUI(ctrl:Controller ) extends Observer{
         name 
     }
 
-    override def update: Unit = println(ctrl.statement)
+    override def update: Unit = println(Controller.statement)
 
-    def toInt(s: String): Int = {
-         try {
-            s.toInt
-         } 
-         catch {
-            case e: Exception => -1
-         }
-    }
-  
 }
