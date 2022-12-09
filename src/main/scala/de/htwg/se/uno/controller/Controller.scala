@@ -8,25 +8,27 @@ import de.htwg.se.uno.uno
 
 class Controller() extends Observable{
     var statement = ""
-    var State = state(0,List[Player](),true,List[Card](),List[Card](),"")
+    var State = state(0,List[Player](),true,List[Card](),List[Card](),"a")
     val undoManager = new UndoManager
     
     def createGame() =
         CardDeck.shuffle(random)
         State = State.copy(stack = (CardDeck.takeCard(1)))
         
-    def createPlayers(players: Int,getName:(Unit => String)) = 
-        State = State.copy(deck = CardDeck.deck, players = (0 until players).map(k =>Player(CardDeck.takeCard(7),getName(()))).toList )
+    def createPlayers(Namen:List[String]) = 
+        State = State.copy(deck = CardDeck.deck, players = (0 until 2).map(k =>Player(CardDeck.takeCard(7),Namen.apply(k))).toList )
+        statement = "Players created!\n"
+        notifyObservers
 
     def printPlayers() =  
         statement = State.players.map(k => k.toString).mkString
         notifyObservers
 
    
-    def doStep(event: Event): String = {
+    def doStep(event: Event): state = {
         undoManager.doStep(new SetCommand(event,this))
         notifyObservers
-        return statement
+        return this.State
     }
 
     def undo(): Unit =

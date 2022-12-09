@@ -14,8 +14,12 @@ class TUI(ctrl:Controller) extends Observer{
     ctrl.createGame()
 
     def start = {
-        println("Hello! Please enter the amount of Player.")
-        ctrl.createPlayers(readLine().toInt,getName)
+        
+        println("Hello! Please enter your Name:")
+        val name1 = readLine()
+        println("Hello! Please enter your Name:")
+        val name2 = readLine()
+        ctrl.createPlayers(List(name1, name2))
         ctrl.printPlayers()
         ctrl.printFirstcard() 
     }
@@ -27,9 +31,9 @@ class TUI(ctrl:Controller) extends Observer{
         val input =  readLine()
         input match {
             case "t" => {
-                         if(ctrl.doStep(takeCardFromDeckEvent()).apply(0).equals('H'))
+                         if(ctrl.doStep(takeCardFromDeckEvent()).output.apply(0).equals('D'))
                             readLine() match {
-                                case "y" => if(ctrl.doStep(dropLastCardEvent(None, true)).apply(0).equals('W'))
+                                case "y" => if(ctrl.doStep(dropLastCardEvent(None, true)).output.apply(0).equals('W'))
                                             ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
                                 case "n" => ctrl.doStep(nextPlayerEvent())
                                 case _   => ctrl.doStep(nextPlayerEvent())
@@ -37,11 +41,11 @@ class TUI(ctrl:Controller) extends Observer{
                         }
             case "r" => {
                         println(select)
-                        if(ctrl.doStep(dropCardEvent(toInt(readLine()), false)).apply(0).equals('W'))
+                        if(ctrl.doStep(dropCardEvent(toInt(readLine()), false)).output.apply(0).equals('W'))
                             ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
                         }
             case "u" | regexUno()    => println(select);ctrl.doStep(dropCardEvent(toInt(readLine()), true))
-            case "uu"| regexUnoUno() => if(ctrl.doStep(UnoUnoEvent()).apply(0).equals('T')) System.exit(0)
+            case "uu"| regexUnoUno() => if(ctrl.doStep(UnoUnoEvent()).output.apply(0).equals('T')) System.exit(0)
             case "q" | regexQuit()   => System.exit(0)
             case "undo" => ctrl.undo()
 

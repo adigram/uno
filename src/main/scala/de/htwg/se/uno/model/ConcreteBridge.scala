@@ -3,8 +3,12 @@ package de.htwg.se.uno.model
 class ConcreteBridge extends gameBridge{
     def takeCardFromDeck(State:state): state = {
         val(player, newDeck, newStack) = takeCardStrategy.apply(State)
-        val output = player(State.currentPlayer).toString() 
-        return state(State.currentPlayer, player, State.direction, newDeck, newStack, output)
+        if(player(State.currentPlayer).hand.last.equal(newStack(0)))
+            return state(State.currentPlayer, player, State.direction, newDeck, newStack, "Do you wan't to drop the Card you took from the stack?[y/n]\n")
+        else
+           val nextPlayerState = State.nextPlayer()
+           return state(nextPlayerState.currentPlayer, player, State.direction, newDeck, newStack, nextPlayerState.output)
+        
     }
     def nextPlayer(State : state ): state ={
         val newPlayer = State.direction match {   
