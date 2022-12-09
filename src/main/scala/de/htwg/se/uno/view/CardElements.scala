@@ -93,7 +93,7 @@ def buttonDrop : Button  = new Button("Drop the crad you got from stack"){
           }
           listenTo(mouse.clicks)
           reactions += { case e: MouseClicked =>
-            ctrl.doStep(dropCardEvent(Option(i), UNOFLAG ))
+            ctrl.doStep(dropCardEvent(Option(i), true ))
         }
       }
     }
@@ -235,6 +235,8 @@ def GridPanelUNO : GridPanel =
         maximumSize = new Dimension(200, 80)
         preferredSize = new Dimension(200, 80)
     }
+  def possibleDrop : Boolean = ctrl.State.output.apply(0).equals('D')
+  def ColourChoose : Boolean = ctrl.State.output.apply(0).equals('W')
 
 
 }

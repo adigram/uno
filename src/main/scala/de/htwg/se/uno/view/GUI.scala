@@ -24,12 +24,12 @@ class GUI1(ctrl: Controller) extends MainFrame with Observer {
        
        box.contents.clear()
        
-       if (ctrl.State.output.apply(0).equals('D')){
+       if (CardElements(ctrl).possibleDrop){
               dropNOt.visible = true
               box.contents += dropNOt
               
        }
-       else if (ctrl.State.output.apply(0).equals('W')){
+       else if (CardElements(ctrl).ColourChoose){
               colour.visible = true
               box.contents += colour
               
