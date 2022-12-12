@@ -7,27 +7,17 @@ import de.htwg.se.uno.uno
 import scala.util.Try
 import scala.util.Success
 import scala.util.Failure
+import scala.util.matching.Regex
 
 class TUI(ctrl:Controller) extends Observer{
 
     ctrl.add(this)
     ctrl.createGame()
 
-    def start = {
         
-        println("Hello! Please enter your Name:")
-        val name1 = readLine()
-        println("Hello! Please enter your Name:")
-        val name2 = readLine()
-        ctrl.createPlayers(List(name1, name2))
-        ctrl.printPlayers()
-        ctrl.printFirstcard() 
-    }
-
-            
             
     def input() = {
-        println(instruction)
+        if (ctrl.startFlag == 1) (println(instruction)) else println(startInstruction)  
         val input =  readLine()
         input match {
             case "t" => {
@@ -50,6 +40,7 @@ class TUI(ctrl:Controller) extends Observer{
             case "undo" => ctrl.undo()
 
             case "redo" => ctrl.redo()
+            case regexNamen() =>  ctrl.createPlayers(input.split(" ").toList);ctrl.printPlayers();ctrl.printFirstcard()
             case _ => println("Wrong Input pls try again")
          }
          
@@ -87,3 +78,5 @@ val regexUno    = """^[U|u]no$""".r
                       "\tredo = repeat State\n"
 
     val select = "Please Select the Crad you want to drop.\nThe first card has the index 0." 
+    val startInstruction = "Hello! Please enter your Name in the Format:\n$Namen1 Namen2"
+    val regexNamen : Regex = """[0-9a-zA-Z- ]+[\s][0-9a-zA-Z- ]+$""".r

@@ -27,7 +27,7 @@ import de.htwg.se.uno.controller._
 
     val button = new Button("create game") {
         reactions += { case event.ButtonClicked(_) =>
-        ctrl.createGame();ctrl.createPlayers(List(name1.text,name2.text));
+        ctrl.createGame();ctrl.createPlayers(List(name1.text,name2.text));ctrl.printPlayers();ctrl.printFirstcard()
         }
         border = BorderFactory.createRaisedSoftBevelBorder
         font = new Font("Arial", 1, 40)

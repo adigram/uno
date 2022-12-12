@@ -10,7 +10,6 @@ object uno{
   
   @main def main():Unit ={
     val gui = GUI1(controller)
-    tui.start
     while (true) {
        tui.input()
     }

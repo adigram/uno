@@ -10,13 +10,14 @@ class Controller() extends Observable{
     var statement = ""
     var State = state(0,List[Player](),true,List[Card](),List[Card](),"a")
     val undoManager = new UndoManager
-    
+    var startFlag = 0
     def createGame() =
         CardDeck.shuffle(random)
         State = State.copy(stack = (CardDeck.takeCard(1)))
         
     def createPlayers(Namen:List[String]) = 
         State = State.copy(deck = CardDeck.deck, players = (0 until 2).map(k =>Player(CardDeck.takeCard(7),Namen.apply(k))).toList )
+        startFlag = 1
         statement = "Players created!\n"
         notifyObservers
 
