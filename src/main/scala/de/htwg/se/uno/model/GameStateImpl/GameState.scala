@@ -47,7 +47,7 @@ case class state (
     def createGame():state =
         val state1 = this.copy( deck = random.shuffle(this.createDeck().deck))
         val  (stack1, deck1)= state1.takeCard(1)
-        state1.copy(stack = stack1, deck = deck1)
+        state1.copy(stack = stack1, deck = deck1, output = "Start Done")
 
     def takeCardFromDeck(): state = bridge.takeCardFromDeck(this)
     def nextPlayer(): state = bridge.nextPlayer(this)

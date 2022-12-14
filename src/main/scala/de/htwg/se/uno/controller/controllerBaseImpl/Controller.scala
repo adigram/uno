@@ -7,13 +7,12 @@ import com.google.inject.{Guice, Inject}
 import scala.util.Random as random 
 import de.htwg.se.uno.uno
 
-case class  Controller @Inject()() extends ControllerInterface with Observable:
+case class  Controller @Inject()(var State: GameStateInterface) extends ControllerInterface with Observable:
     var statement = ""
-    var State = new state()
     val undoManager = new UndoManager
     var startFlag = 0
     def createGame() =
-        State =  State.createGame()
+        this.State =  State.createGame()
         
     def createPlayers(Namen:List[String]) = 
         State = State.createPlayers(Namen)
