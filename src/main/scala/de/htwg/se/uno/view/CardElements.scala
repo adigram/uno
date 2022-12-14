@@ -9,8 +9,9 @@ import javax.swing.{ImageIcon}
 import java.io.File
 import java.awt.image.BufferedImage
 import scala.swing.event.SelectionChanged.apply
+import de.htwg.se.uno.controller.ControllerInterface
 
-case class CardElements(ctrl: Controller){
+case class CardElements(ctrl: ControllerInterface){
 var UNOFLAG = false
 def button : Button = new Button() {
     reactions += { case event.ButtonClicked(_) =>

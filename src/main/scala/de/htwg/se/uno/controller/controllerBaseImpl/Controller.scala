@@ -6,7 +6,7 @@ import de.htwg.se.uno.model._
 import scala.util.Random as random 
 import de.htwg.se.uno.uno
 
-class Controller() extends Observable{
+case class Controller() extends ControllerInterface with Observable:
     var statement = ""
     var State = state(0,List[Player](),true,List[Card](),List[Card](),"a")
     val undoManager = new UndoManager
@@ -26,7 +26,7 @@ class Controller() extends Observable{
         notifyObservers
 
    
-    def doStep(event: Event): state = {
+    def doStep(event: Event): GameStateInterface = {
         undoManager.doStep(new SetCommand(event,this))
         notifyObservers
         return this.State
@@ -43,4 +43,4 @@ class Controller() extends Observable{
         statement =  "Stack: " + State.stack(0).toString
         notifyObservers
         return statement
-}   
+  

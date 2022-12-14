@@ -9,7 +9,7 @@ case class state (
     deck:List[Card],
     stack:List[Card],
     output: String
-    ){
+    ) extends GameStateInterface{
     
     val bridge: gameBridge = new ConcreteBridge
 

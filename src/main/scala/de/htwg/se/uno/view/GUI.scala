@@ -9,7 +9,7 @@ import de.htwg.se.uno.model._
 import java.awt.Color
 import javax.swing.BorderFactory
 
-class GUI1(ctrl: Controller) extends MainFrame with Observer {
+class GUI1(ctrl: ControllerInterface) extends MainFrame with Observer {
  ctrl.add(this)
  title = "UNO"
  resizable = false

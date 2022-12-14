@@ -4,7 +4,7 @@ import java.awt.Color
 import javax.swing.BorderFactory
 import de.htwg.se.uno.controller._
 
- case class createGame(ctrl: Controller){
+ case class createGame(ctrl: ControllerInterface){
     val name1 = new TextArea("Name 1") {
         background = Color.GRAY
         foreground = Color.BLACK

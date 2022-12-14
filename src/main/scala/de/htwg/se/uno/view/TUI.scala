@@ -9,13 +9,11 @@ import scala.util.Success
 import scala.util.Failure
 import scala.util.matching.Regex
 
-class TUI(ctrl:Controller) extends Observer{
+class TUI(ctrl:ControllerInterface) extends Observer{
 
     ctrl.add(this)
     ctrl.createGame()
-
-        
-            
+      
     def input() = {
         if (ctrl.startFlag == 1) (println(instruction)) else println(startInstruction)  
         val input =  readLine()
@@ -45,15 +43,6 @@ class TUI(ctrl:Controller) extends Observer{
          }
          
     }
-
-    var scan:(Unit => String) = Unit =>  scala.io.StdIn.readLine()
-
-    val getName:(Unit => String) = Unit => {
-        println("Please enter your Name:")
-        val name = scan(())
-        name 
-    }
-
     override def update: Unit = println(ctrl.statement)
 
     def toInt(s: String): Option[Int] = {
@@ -62,14 +51,17 @@ class TUI(ctrl:Controller) extends Observer{
             case Failure(exception) => None
          }
     }
-  
+
+    def drop = ctrl.doStep(takeCardFromDeckEvent()).output.apply(0).equals('D')
+    def choose = ctrl.doStep(dropLastCardEvent(None, true)).output.apply(0).equals('W')
+    def choosecolour = ctrl.doStep(dropCardEvent(toInt(readLine()), false)).output.apply(0).equals('W')
 }
 
 val regexUno    = """^[U|u]no$""".r
-    val regexUnoUno = """^[U|u]no ?[U|u]no$""".r
-    val regexQuit   = """^[Q|q]uit$""".r
+val regexUnoUno = """^[U|u]no ?[U|u]no$""".r
+val regexQuit   = """^[Q|q]uit$""".r
 
-    val instruction = "Possible Instructions:\n\tt = Take a new Card from Stack\n" +
+val instruction = "Possible Instructions:\n\tt = Take a new Card from Stack\n" +
                       "\tr = Put a Card from Hand into GameBoard\n" +
                       "\tu or uno = Call UNO\n" +
                       "\tuu or uno uno = Call UNO UNO\n"+
@@ -77,6 +69,6 @@ val regexUno    = """^[U|u]no$""".r
                       "\tundo = State backwards\n"+
                       "\tredo = repeat State\n"
 
-    val select = "Please Select the Crad you want to drop.\nThe first card has the index 0." 
-    val startInstruction = "Hello! Please enter your Name in the Format:\n$Namen1 Namen2"
-    val regexNamen : Regex = """[0-9a-zA-Z- ]+[\s][0-9a-zA-Z- ]+$""".r
+val select = "Please Select the Crad you want to drop.\nThe first card has the index 0." 
+val startInstruction = "Hello! Please enter your Name in the Format:\nNamen1 Namen2"
+val regexNamen : Regex = """[0-9a-zA-Z- ]+[\s][0-9a-zA-Z- ]+$""".r
