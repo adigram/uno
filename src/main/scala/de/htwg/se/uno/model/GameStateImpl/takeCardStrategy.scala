@@ -19,7 +19,7 @@ object takeCardStrategy{
 
     def stackSmallerSix(State: state):(List[Player], List[Card],List[Card])={
         val (newStack,oldStack) = State.stack.splitAt(1)
-        val newDeck= r.shuffle((CardDeck.deck ++ oldStack))
+        val newDeck= r.shuffle((State.deck ++ oldStack))
         val stack = newStack
         return stackBiggerFive(state(State.currentPlayer,State.players, State.direction,newDeck, stack,"" ))
     }

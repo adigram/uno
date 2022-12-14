@@ -24,6 +24,16 @@ case class state (
         }
     }
 
+    def createZeroCards():List[Card]=(0 until 4).map(k =>(Card(Value.values(0), Colour.values(k)))).toList
+
+    def createNormalCards():List[Card]=(0 until 2).flatMap(t =>(0 until 4).
+        flatMap(k =>(1 until 13).map(j => (Card(Value.values(j), Colour.values(k)))))).toList
+
+    def wildCards():List[Card] = (0 until 4).flatMap(i =>(13 until 15).
+         map(k => Card(Value.values(k), Colour.values(4)))).toList
+
+    def createDeck():state = this.copy( deck =  createZeroCards() ++ createNormalCards() ++ wildCards())
+
     def takeCardFromDeck(): state = bridge.takeCardFromDeck(this)
     def nextPlayer(): state = bridge.nextPlayer(this)
     def UnoUno(): state = {

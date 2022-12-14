@@ -9,6 +9,10 @@ trait GameStateInterface {
   def deck:List[Card]
   def stack:List[Card]
   def handle(e:Event):state
+  def createZeroCards():List[Card]
+  def createNormalCards():List[Card]
+  def wildCards():List[Card]
+  def createDeck():state
   def takeCardFromDeck(): state
   def nextPlayer(): state
   def UnoUno(): state

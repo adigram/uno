@@ -9,6 +9,7 @@ trait ControllerInterface extends Observable:
   val undoManager: UndoManager
   var startFlag: Int
   def createGame():Unit
+  def takeCard(n: Int) : List[Card]
   def createPlayers(Namen:List[String]):Unit
   def printPlayers():Unit
   def doStep(event: Event): GameStateInterface 

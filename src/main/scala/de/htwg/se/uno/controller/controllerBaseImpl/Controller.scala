@@ -12,11 +12,14 @@ case class Controller() extends ControllerInterface with Observable:
     val undoManager = new UndoManager
     var startFlag = 0
     def createGame() =
-        CardDeck.shuffle(random)
-        State = State.copy(stack = (CardDeck.takeCard(1)))
+        State = State.copy(deck = random.shuffle(State.createDeck().deck) )
+        val stack= takeCard(1)
+        State = State.copy(stack = stack)
+
+    def takeCard(n: Int) = {var split = State.deck.splitAt(n); State = State.copy(deck = split._2); split._1}
         
     def createPlayers(Namen:List[String]) = 
-        State = State.copy(deck = CardDeck.deck, players = (0 until 2).map(k =>Player(CardDeck.takeCard(7),Namen.apply(k))).toList )
+        State = State.copy( players = (0 until 2).map(k =>Player(takeCard(7),Namen.apply(k))).toList )
         startFlag = 1
         statement = "Players created!\n"
         notifyObservers
