@@ -1,6 +1,7 @@
 package de.htwg.se.uno.model
 import scala.io.StdIn.readLine
 import scala.compiletime.ops.string
+import scala.util.Random as random
 
 case class state (
     currentPlayer:Int,
@@ -23,6 +24,7 @@ case class state (
             case e:UnoUnoEvent           => UnoUno()
         }
     }
+    def this() = this(0,List[Player](), true, List[Card](),List[Card](),"a" )
 
     def createZeroCards():List[Card]=(0 until 4).map(k =>(Card(Value.values(0), Colour.values(k)))).toList
 
@@ -33,6 +35,19 @@ case class state (
          map(k => Card(Value.values(k), Colour.values(4)))).toList
 
     def createDeck():state = this.copy( deck =  createZeroCards() ++ createNormalCards() ++ wildCards())
+
+    def takeCard(n: Int): (List[Card] ,List[Card]) = this.deck.splitAt(n)
+        
+    def createPlayers(Namen:List[String]) = 
+        val (player1, deck1) = this.takeCard(7)
+        val newState = this.copy(deck = deck1)
+        val (player2, deck2) = newState.takeCard(7)
+        newState.copy(deck = deck2, players = List(Player(player1, Namen.apply(0)), Player(player2, Namen.apply(1))))
+    
+    def createGame():state =
+        val state1 = this.copy( deck = random.shuffle(this.createDeck().deck))
+        val  (stack1, deck1)= state1.takeCard(1)
+        state1.copy(stack = stack1, deck = deck1)
 
     def takeCardFromDeck(): state = bridge.takeCardFromDeck(this)
     def nextPlayer(): state = bridge.nextPlayer(this)

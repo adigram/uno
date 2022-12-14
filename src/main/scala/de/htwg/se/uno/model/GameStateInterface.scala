@@ -13,7 +13,10 @@ trait GameStateInterface {
   def createNormalCards():List[Card]
   def wildCards():List[Card]
   def createDeck():state
+  def createGame():state
   def takeCardFromDeck(): state
+  def createPlayers(Namen:List[String]):state
+  def takeCard(n: Int): (List[Card] ,List[Card]) 
   def nextPlayer(): state
   def UnoUno(): state
   def dropCard(chosenCard:Option[Int],unoFlag:Boolean): state

@@ -5,13 +5,12 @@ import de.htwg.se.uno.model._
 
 trait ControllerInterface extends Observable:
   var statement: String
-  var State: state
+  var State: GameStateInterface
   val undoManager: UndoManager
   var startFlag: Int
-  def createGame():Unit
-  def takeCard(n: Int) : List[Card]
   def createPlayers(Namen:List[String]):Unit
   def printPlayers():Unit
+  def createGame(): Unit
   def doStep(event: Event): GameStateInterface 
   def undo(): Unit
   def redo(): Unit

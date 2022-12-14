@@ -6,7 +6,7 @@ import de.htwg.se.uno.util._
 
 class SetCommand(input: Event,ctrl:Controller) extends Command {
 
-  val state: state = ctrl.State
+  val state: GameStateInterface = ctrl.State
 
   override def doStep(): Unit =
     val result = ctrl.State.handle(input)
