@@ -8,7 +8,7 @@ import de.htwg.se.uno.uno
 
 case class Controller() extends ControllerInterface with Observable:
     var statement = ""
-    var State = state(0,List[Player](),true,List[Card](),List[Card](),"a")
+    var State = state(0,List[Player](),true,List[Card](),List[Card](),"a", Trigger.print)
     val undoManager = new UndoManager
     var startFlag = 0
     def createGame() =
@@ -19,16 +19,16 @@ case class Controller() extends ControllerInterface with Observable:
         State = State.copy(deck = CardDeck.deck, players = (0 until 2).map(k =>Player(CardDeck.takeCard(7),Namen.apply(k))).toList )
         startFlag = 1
         statement = "Players created!\n"
-        notifyObservers
+        notifyObservers(Trigger.print)
 
     def printPlayers() =  
         statement = State.players.map(k => k.toString).mkString
-        notifyObservers
+        notifyObservers(Trigger.print)
 
    
     def doStep(event: Event): GameStateInterface = {
         undoManager.doStep(new SetCommand(event,this))
-        notifyObservers
+        notifyObservers(State.trigger)
         return this.State
     }
 
@@ -37,10 +37,10 @@ case class Controller() extends ControllerInterface with Observable:
 
     def redo(): Unit =
         undoManager.redoStep
-        notifyObservers
+        notifyObservers(State.trigger)
 
     def printFirstcard(): String = 
         statement =  "Stack: " + State.stack(0).toString
-        notifyObservers
+        notifyObservers(Trigger.print)
         return statement
   

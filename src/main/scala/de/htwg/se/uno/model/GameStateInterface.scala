@@ -1,4 +1,5 @@
 package de.htwg.se.uno.model
+import de.htwg.se.uno.util._
 
 trait GameStateInterface {
   val bridge: gameBridge
@@ -6,6 +7,7 @@ trait GameStateInterface {
   def currentPlayer:Int
   def players:List[Player]
   def direction:Boolean
+  def trigger: Trigger
   def deck:List[Card]
   def stack:List[Card]
   def handle(e:Event):state

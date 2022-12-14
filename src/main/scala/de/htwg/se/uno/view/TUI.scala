@@ -19,18 +19,13 @@ class TUI(ctrl:ControllerInterface) extends Observer{
         val input =  readLine()
         input match {
             case "t" => {
-                         if(ctrl.doStep(takeCardFromDeckEvent()).output.apply(0).equals('D'))
-                            readLine() match {
-                                case "y" => if(ctrl.doStep(dropLastCardEvent(None, true)).output.apply(0).equals('W'))
-                                            ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
-                                case "n" => ctrl.doStep(nextPlayerEvent())
-                                case _   => ctrl.doStep(nextPlayerEvent())
-                            }
+                        ctrl.doStep(takeCardFromDeckEvent())
+                        ctrl.State = ctrl.State.copy(trigger = Trigger.print)  
                         }
             case "r" => {
                         println(select)
-                        if(ctrl.doStep(dropCardEvent(toInt(readLine()), false)).output.apply(0).equals('W'))
-                            ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
+                        ctrl.doStep(dropCardEvent(toInt(readLine()), false))
+                        ctrl.State = ctrl.State.copy(trigger = Trigger.print)
                         }
             case "u" | regexUno()    => println(select);ctrl.doStep(dropCardEvent(toInt(readLine()), true))
             case "uu"| regexUnoUno() => if(ctrl.doStep(UnoUnoEvent()).output.apply(0).equals('T')) System.exit(0)
@@ -43,7 +38,17 @@ class TUI(ctrl:ControllerInterface) extends Observer{
          }
          
     }
-    override def update: Unit = println(ctrl.statement)
+    override def update(e: Trigger): Unit =
+         println(ctrl.statement)
+         e match 
+            case Trigger.dropAftertake => readLine() match {
+                                case "y" => ctrl.doStep(dropLastCardEvent(None, true)) 
+                                case "n" => ctrl.doStep(nextPlayerEvent())
+                                case _   => ctrl.doStep(nextPlayerEvent())
+                            }
+            case Trigger.colourChoose => ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
+            case Trigger.print => 
+            
 
     def toInt(s: String): Option[Int] = {
          Try(s.toInt) match{
@@ -52,9 +57,7 @@ class TUI(ctrl:ControllerInterface) extends Observer{
          }
     }
 
-    def drop = ctrl.doStep(takeCardFromDeckEvent()).output.apply(0).equals('D')
-    def choose = ctrl.doStep(dropLastCardEvent(None, true)).output.apply(0).equals('W')
-    def choosecolour = ctrl.doStep(dropCardEvent(toInt(readLine()), false)).output.apply(0).equals('W')
+   
 }
 
 val regexUno    = """^[U|u]no$""".r

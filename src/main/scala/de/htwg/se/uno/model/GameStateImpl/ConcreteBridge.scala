@@ -1,13 +1,14 @@
 package de.htwg.se.uno.model
+import de.htwg.se.uno.util._
 
 class ConcreteBridge extends gameBridge{
     def takeCardFromDeck(State:state): state = {
         val(player, newDeck, newStack) = takeCardStrategy.apply(State)
         if(player(State.currentPlayer).hand.last.equal(newStack(0)))
-            return state(State.currentPlayer, player, State.direction, newDeck, newStack, "Do you wan't to drop the Card you took from the stack?[y/n]\n")
+            return state(State.currentPlayer, player, State.direction, newDeck, newStack, "Do you wan't to drop the Card you took from the stack?[y/n]\n", Trigger.dropAftertake)
         else
            val nextPlayerState = State.nextPlayer()
-           return state(nextPlayerState.currentPlayer, player, State.direction, newDeck, newStack, nextPlayerState.output)
+           return state(nextPlayerState.currentPlayer, player, State.direction, newDeck, newStack, nextPlayerState.output, Trigger.print)
         
     }
     def nextPlayer(State : state ): state ={

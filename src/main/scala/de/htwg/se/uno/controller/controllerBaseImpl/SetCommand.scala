@@ -17,7 +17,7 @@ class SetCommand(input: Event,ctrl:Controller) extends Command {
   override def undoStep(): Unit =
     ctrl.State = state
     ctrl.statement = state.output
-    ctrl.notifyObservers
+    ctrl.notifyObservers(State.trigger)
 
   override def redoStep(): Unit =
     val result = ctrl.State.handle(input)

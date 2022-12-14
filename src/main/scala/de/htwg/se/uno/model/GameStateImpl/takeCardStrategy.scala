@@ -1,5 +1,6 @@
 package de.htwg.se.uno.model
 import scala.util.Random as r 
+import de.htwg.se.uno.util._
 
 object takeCardStrategy{
 
@@ -21,7 +22,7 @@ object takeCardStrategy{
         val (newStack,oldStack) = State.stack.splitAt(1)
         val newDeck= r.shuffle((CardDeck.deck ++ oldStack))
         val stack = newStack
-        return stackBiggerFive(state(State.currentPlayer,State.players, State.direction,newDeck, stack,"" ))
+        return stackBiggerFive(state(State.currentPlayer,State.players, State.direction,newDeck, stack,"", trigger = Trigger.print ))
     }
        
 }

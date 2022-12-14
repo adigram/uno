@@ -1,6 +1,7 @@
 package de.htwg.se.uno.model
 import scala.io.StdIn.readLine
 import scala.compiletime.ops.string
+import de.htwg.se.uno.util._
 
 case class state (
     currentPlayer:Int,
@@ -8,7 +9,11 @@ case class state (
     direction:Boolean,
     deck:List[Card],
     stack:List[Card],
-    output: String
+
+    output: String,
+
+    trigger: Trigger
+    
     ) extends GameStateInterface{
     
     val bridge: gameBridge = new ConcreteBridge
@@ -60,8 +65,8 @@ case class state (
                     case Value.Skip    => this.dropNormalCard(cardNumber, unoFlag).copy(currentPlayer = if(this.direction) (this.currentPlayer + 1)  else (this.currentPlayer - 1)).handle(nextPlayerEvent())
                     case Value.Reverse    => this.dropNormalCard(cardNumber, unoFlag).copy(direction = if(this.direction) false else true).handle(nextPlayerEvent())
                     case Value.DrawTwo    => this.dropNormalCard(cardNumber, unoFlag).handle(nextPlayerEvent()).takeCardFromDeck().takeCardFromDeck()
-                    case Value.Wild    => this.dropNormalCard(cardNumber, unoFlag).copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n")
-                    case Value.WildFour    => this.dropNormalCard(cardNumber, unoFlag).handle(nextPlayerEvent()).takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n" )
+                    case Value.Wild    => this.dropNormalCard(cardNumber, unoFlag).copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n", trigger = Trigger.colourChoose)
+                    case Value.WildFour    => this.dropNormalCard(cardNumber, unoFlag).handle(nextPlayerEvent()).takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n", trigger = Trigger.colourChoose )
                     case default => this.dropNormalCard(cardNumber, unoFlag).handle(nextPlayerEvent())
                                         }                                                          
                                 }   
@@ -72,8 +77,8 @@ case class state (
                     case Value.Skip    => this.dropNormalCard(chosenCard, unoFlag).copy(currentPlayer = if(this.direction) (this.currentPlayer + 1)  else (this.currentPlayer - 1)).handle(nextPlayerEvent())
                     case Value.Reverse    => this.dropNormalCard(chosenCard, unoFlag).copy(direction = if(this.direction) false else true).handle(nextPlayerEvent())
                     case Value.DrawTwo     => this.dropNormalCard(chosenCard,unoFlag).handle(nextPlayerEvent()).takeCardFromDeck().takeCardFromDeck()
-                    case Value.Wild    => this.dropNormalCard(chosenCard, unoFlag).nextPlayer().copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n")
-                    case Value.WildFour    => this.dropNormalCard(chosenCard,unoFlag).nextPlayer().takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n" )
+                    case Value.Wild    => this.dropNormalCard(chosenCard, unoFlag).nextPlayer().copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n", trigger = Trigger.colourChoose)
+                    case Value.WildFour    => this.dropNormalCard(chosenCard,unoFlag).nextPlayer().takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().takeCardFromDeck().copy(output = "Which colour do you want?\n0 = red\n1 = green\n2 = blue\n3 = yellow\n", trigger = Trigger.colourChoose )
                     case default => this.dropNormalCard(chosenCard,unoFlag).handle(nextPlayerEvent()) 
                          }  
             

@@ -17,7 +17,7 @@ class GUI1(ctrl: ControllerInterface) extends MainFrame with Observer {
  var dropNOt = CardElements(ctrl).GridPanelDroporNot
  var colour = CardElements(ctrl).GridPanelColour
 
- override def update: Unit = {
+ override def update(t: Trigger): Unit = {
        
        dropNOt.visible = false
        colour.visible = false
