@@ -2,11 +2,12 @@ package de.htwg.se.uno.controller
 
 import de.htwg.se.uno.util._
 import de.htwg.se.uno.model._
+import com.google.inject.{Guice, Inject}
 
 import scala.util.Random as random 
 import de.htwg.se.uno.uno
 
-case class Controller() extends ControllerInterface with Observable:
+case class  Controller @Inject()() extends ControllerInterface with Observable:
     var statement = ""
     var State = new state()
     val undoManager = new UndoManager

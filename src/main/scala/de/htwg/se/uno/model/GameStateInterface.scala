@@ -2,12 +2,13 @@ package de.htwg.se.uno.model
 
 trait GameStateInterface {
   val bridge: gameBridge
-  def output: String
-  def currentPlayer:Int
-  def players:List[Player]
-  def direction:Boolean
-  def deck:List[Card]
-  def stack:List[Card]
+  val output: String
+  val currentPlayer:Int
+  val players:List[Player]
+  val direction:Boolean
+  val deck:List[Card]
+  val stack:List[Card]
+
   def handle(e:Event):state
   def createZeroCards():List[Card]
   def createNormalCards():List[Card]
