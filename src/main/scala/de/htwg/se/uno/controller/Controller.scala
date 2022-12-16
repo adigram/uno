@@ -6,33 +6,28 @@ import scala.util.Random as random
 import de.htwg.se.uno.uno
 
 object Controller extends Observable{
-    var statement = ""
-    var State = state(0,List[Player](),true,List[Card](),List[Card](),"",new Event_createGame())
+
+    var State = state(0,List[Player](),true,List[Card](),List[Card](),Event_createGame(),SetupPlayers())
+
     def createGame() =
         CardDeck.shuffle(random)
         State = State.copy(stack = (CardDeck.takeCard(1)))
+        notifyObservers(SetupPlayers())
         
-    def createPlayers(players: Int,getName:(Unit => String)) = 
-        State = State.copy(deck = CardDeck.deck, players = (0 until players).map(k =>Player(CardDeck.takeCard(7),getName(()))).toList )
+    def createPlayers(amount: Int,names: List[String]) = 
+        State = State.copy(deck = CardDeck.deck, players = (0 until amount).map(k =>Player(CardDeck.takeCard(7),names(k))).toList )
+        notifyObservers(PlayerHands(State.players))
+        notifyObservers(TopCard(State.stack(0)))
 
-    def printPlayers() =  
-        statement = State.players.map(k => k.toString).mkString
-        notifyObservers
-
-   
-    def handle(event: Event): String = {
+    def handle(event: Event) = {
         State = State.handle(event)
-        statement = State.output
-        notifyObservers
-        return statement
+        notifyObservers(State.change)
     }
 
-    def request(command:Command):Unit = {
-        //TODO
+    def request(command:Command) = {
+        command match
+            case command : ResponseSetupPlayers => createPlayers(command.amount,command.names)
+            case _                              => println("Unknow Command")
     }
 
-    def printFirstcard(): String = 
-        statement =  "Stack: " + State.stack(0).toString
-        notifyObservers
-        return statement
 }   

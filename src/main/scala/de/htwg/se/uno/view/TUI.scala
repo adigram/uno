@@ -2,24 +2,12 @@ package  de.htwg.se.uno.view
 import scala.io.StdIn.readLine
 import de.htwg.se.uno.controller._
 import de.htwg.se.uno.util._
-import de.htwg.se.uno.model._
-import de.htwg.se.uno.uno
+import de.htwg.se.uno.model.Player
 
 class TUI extends Observer{
 
-    Controller.add(this)
-    Controller.createGame()
-    
-    def start = {
-        println("How many Players?")
-        Controller.createPlayers(scanInt(()),getName)
-        println(instruction)
-        Controller.printPlayers()
-        Controller.printFirstcard()  
-    }
-
     val instruction = "Possible Instructions:\n\tt = Take a new Card from Stack\n" +
-                      "\tr = Put a Card from Hand into GameBoard\n" +
+                      "\tp = Play Card\n" +
                       "\tu or uno = Call UNO\n" +
                       "\tuu or uno uno = Call UNO UNO\n"+
                       "\tq or quit = Leave the game\n"
@@ -29,13 +17,15 @@ class TUI extends Observer{
     val regexUnoUno = """^[U|u]no ?[U|u]no$""".r
     val regexHelp   = """^[H|h]elp$""".r
     val regexQuit   = """^[Q|q]uit$""".r
+    val regexTake   = """^[T|t]ake$""".r
+    val regexPlay   = """^[P|p]lay$""".r
 
     def input() = {
         val input =  readLine()
 
         input match {
-            case "t"                 => Controller.request(TakeCard())
-            case "r"                 => Controller.request(PlayCard(scanInt(())))
+            case "t" | regexTake()   => Controller.request(TakeCard())
+            case "p" | regexPlay()   => Controller.request(PlayCard(scanInt(())))
             case "u" | regexUno()    => Controller.request(Uno())
             case "uu"| regexUnoUno() => Controller.request(UnoUno())
             case "h" | regexHelp()   => println(instruction)
@@ -48,11 +38,24 @@ class TUI extends Observer{
     var scanInt:(Unit => Int) = Unit =>  scala.io.StdIn.readInt()
 
     val getName:(Unit => String) = Unit => {
-        println("Please enter your Name:")
-        val name = scan(())
-        name 
+        println("Please enter Name of Player:")
+        scan(())
     }
 
-    override def update: Unit = println(Controller.statement)
+    override def update(change: Change): Unit = {
+        change match {
+            case change : NewCard  => println("Type newCard" + change.chosenCard)
+            case change : SetupPlayers => setupPlayers
+            case change : PlayerHands => println(change.players.map(player => player.toString).mkString)
+            case change : TopCard  => println("Top Card:"+change.card.toString())
+            case _                 => println("Unknow Change!")
+        }
+    }
+
+    def setupPlayers : Unit = {
+        println("How many Players?")
+        val amount = scanInt(())
+        Controller.request(ResponseSetupPlayers(amount,(0 until amount).map(k => getName(())).toList))
+    }
 
 }

@@ -6,9 +6,12 @@ import controller._
 object uno{
   val tui = TUI()
   @main def main():Unit ={
-    tui.start
+    Controller.add(tui)
+    //Controller.add(gui)
+    Controller.createGame()
     while (true) {
        tui.input()
-   }
+    }
   }
 }
+
