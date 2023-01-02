@@ -21,7 +21,7 @@ class TUI(ctrl:ControllerInterface) extends Observer{
             case "t" => {
                          if(ctrl.doStep(takeCardFromDeckEvent()).output.apply(0).equals('D'))
                             readLine() match {
-                                case "y" => if(ctrl.doStep(dropLastCardEvent(None, true)).output.apply(0).equals('W'))
+                                case "y" => if(ctrl.doStep(dropLastCardEvent(None)).output.apply(0).equals('W'))
                                             ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
                                 case "n" => ctrl.doStep(nextPlayerEvent())
                                 case _   => ctrl.doStep(nextPlayerEvent())
@@ -29,10 +29,10 @@ class TUI(ctrl:ControllerInterface) extends Observer{
                         }
             case "r" => {
                         println(select)
-                        if(ctrl.doStep(dropCardEvent(toInt(readLine()), false)).output.apply(0).equals('W'))
+                        if(ctrl.doStep(dropCardEvent(toInt(readLine()))).output.apply(0).equals('W'))
                             ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
                         }
-            case "u" | regexUno()    => println(select);ctrl.doStep(dropCardEvent(toInt(readLine()), true))
+            case "u" | regexUno()    => println(select);ctrl.doStep(UnoEvent(toInt(readLine())))
             case "uu"| regexUnoUno() => if(ctrl.doStep(UnoUnoEvent()).output.apply(0).equals('T')) System.exit(0)
             case "q" | regexQuit()   => System.exit(0)
             case "undo" => ctrl.undo()
@@ -52,9 +52,6 @@ class TUI(ctrl:ControllerInterface) extends Observer{
          }
     }
 
-    def drop = ctrl.doStep(takeCardFromDeckEvent()).output.apply(0).equals('D')
-    def choose = ctrl.doStep(dropLastCardEvent(None, true)).output.apply(0).equals('W')
-    def choosecolour = ctrl.doStep(dropCardEvent(toInt(readLine()), false)).output.apply(0).equals('W')
 }
 
 val regexUno    = """^[U|u]no$""".r

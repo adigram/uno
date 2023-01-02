@@ -12,7 +12,6 @@ import scala.swing.event.SelectionChanged.apply
 import de.htwg.se.uno.controller.ControllerInterface
 
 case class CardElements(ctrl: ControllerInterface){
-var UNOFLAG = false
 def button : Button = new Button() {
     reactions += { case event.ButtonClicked(_) =>
       ctrl.doStep(takeCardFromDeckEvent())
@@ -66,7 +65,7 @@ def buttonDropNot : Button = new Button("Nextplayer"){
 def buttonDrop : Button  = new Button("Drop the crad you got from stack"){
   reactions +={
       case event.ButtonClicked(_)  =>
-        ctrl.doStep(dropLastCardEvent(None, true))
+        ctrl.doStep(dropLastCardEvent(None))
         }
     border = BorderFactory.createRaisedSoftBevelBorder
     font = new Font("Arial", 1, 10)
@@ -94,7 +93,10 @@ def buttonDrop : Button  = new Button("Drop the crad you got from stack"){
           }
           listenTo(mouse.clicks)
           reactions += { case e: MouseClicked =>
-            ctrl.doStep(dropCardEvent(Option(i), true ))
+            if (ctrl.State.unoFlag)
+              ctrl.doStep(UnoEvent(Option(i) ))
+            else
+              ctrl.doStep(dropCardEvent(Option(i) ))
         }
       }
     }
@@ -170,7 +172,7 @@ def LabelColour : Button = new Button("Which Colour do you want)"){
 def UNOUNOBUTTON : Button = new Button("UNO UNO"){
   reactions +={
       case event.ButtonClicked(_)  =>
-        ctrl.doStep(UnoUnoEvent()) 
+        if(ctrl.doStep(UnoUnoEvent()).output.apply(0).equals('T')) System.exit(0)
         }
     border = BorderFactory.createRaisedSoftBevelBorder
     font = new Font("Arial", 1, 10)
@@ -182,7 +184,8 @@ def UNOUNOBUTTON : Button = new Button("UNO UNO"){
 def UNOBUTTON : Button= new Button("UNO"){
   reactions +={
       case event.ButtonClicked(_)  =>
-        UNOFLAG =true
+        ctrl.State = state(ctrl.State.currentPlayer, ctrl.State.players,ctrl.State.direction, ctrl.State.deck,
+         ctrl.State.stack, ctrl.State.output,true)
         }
     border = BorderFactory.createRaisedSoftBevelBorder
     font = new Font("Arial", 1, 10)
