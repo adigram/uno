@@ -8,6 +8,8 @@ import scala.util.Try
 import scala.util.Success
 import scala.util.Failure
 import scala.util.matching.Regex
+import com.google.inject.Guice
+
 
 class TUI(ctrl:ControllerInterface) extends Observer{
 
@@ -15,32 +17,42 @@ class TUI(ctrl:ControllerInterface) extends Observer{
     ctrl.createGame()
       
     def input() = {
-        if (ctrl.startFlag == 1) (println(instruction)) else println(startInstruction)  
-        val input =  readLine()
-        input match {
-            case "t" => {
-                         if(ctrl.doStep(takeCardFromDeckEvent()).output.apply(0).equals('D'))
-                            readLine() match {
-                                case "y" => if(ctrl.doStep(dropLastCardEvent(None)).output.apply(0).equals('W'))
-                                            ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
-                                case "n" => ctrl.doStep(nextPlayerEvent())
-                                case _   => ctrl.doStep(nextPlayerEvent())
+        if (ctrl.startFlag == 1){
+            println(instruction) 
+            val input =  readLine()
+            input match {
+                case "t" => {
+                            if(ctrl.doStep(takeCardFromDeckEvent()).output.apply(0).equals('D'))
+                                readLine() match {
+                                    case "y" => if(ctrl.doStep(dropLastCardEvent(None)).output.apply(0).equals('W'))
+                                                ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
+                                    case "n" => ctrl.doStep(nextPlayerEvent())
+                                    case _   => ctrl.doStep(nextPlayerEvent())
+                                }
                             }
-                        }
-            case "r" => {
-                        println(select)
-                        if(ctrl.doStep(dropCardEvent(toInt(readLine()))).output.apply(0).equals('W'))
-                            ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
-                        }
-            case "u" | regexUno()    => println(select);ctrl.doStep(UnoEvent(toInt(readLine())))
-            case "uu"| regexUnoUno() => if(ctrl.doStep(UnoUnoEvent()).output.apply(0).equals('T')) System.exit(0)
-            case "q" | regexQuit()   => System.exit(0)
-            case "undo" => ctrl.undo()
-
-            case "redo" => ctrl.redo()
-            case regexNamen() =>  ctrl.createPlayers(input.split(" ").toList);ctrl.printPlayers();ctrl.printFirstcard()
-            case _ => println("Wrong Input pls try again")
-         }
+                case "r" => {
+                            println(select)
+                            if(ctrl.doStep(dropCardEvent(toInt(readLine()))).output.apply(0).equals('W'))
+                                ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
+                            }
+                case "u" | regexUno()    => println(select);ctrl.doStep(UnoEvent(toInt(readLine())))
+                case "uu"| regexUnoUno() => if(ctrl.doStep(UnoUnoEvent()).output.apply(0).equals('T')) System.exit(0)
+                case "q" | regexQuit()   => System.exit(0)
+                case "undo" => ctrl.undo()
+                case "redo" => ctrl.redo()
+                case "save" => ctrl.save
+                case "load" => ctrl.load
+                case _ => println("Wrong Input pls try again")
+            }
+        }
+        else{
+         println(startInstruction) 
+         val input =  readLine()
+         input match {
+                case regexNamen() =>  ctrl.createPlayers(input.split(" ").toList);ctrl.printPlayers();ctrl.printFirstcard()
+                case _ => println("Wrong Input pls try again")
+            }
+        }
          
     }
     override def update: Unit = println(ctrl.statement)

@@ -5,7 +5,7 @@ import javax.swing.BorderFactory
 import de.htwg.se.uno.controller._
 
  case class createGame(ctrl: ControllerInterface){
-    val name1 = new TextArea("Name 1") {
+    val name1 = new TextArea("Name1") {
         background = Color.GRAY
         foreground = Color.BLACK
         font = new Font("Arial", 2, 40)
@@ -15,7 +15,7 @@ import de.htwg.se.uno.controller._
         preferredSize = new Dimension(100, 40)
     }
 
-    val name2 = new TextArea("Name 2") {
+    val name2 = new TextArea("Name2") {
         background = Color.GRAY
         foreground = Color.BLACK
         font = new Font("Arial", 2, 40)

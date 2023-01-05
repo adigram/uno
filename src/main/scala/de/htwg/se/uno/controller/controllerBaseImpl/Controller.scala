@@ -3,7 +3,7 @@ package de.htwg.se.uno.controller
 import de.htwg.se.uno.util._
 import de.htwg.se.uno.model._
 import com.google.inject.{Guice, Inject}
-
+import de.htwg.se.uno.UnoModule
 import scala.util.Random as random 
 import de.htwg.se.uno.uno
 
@@ -30,6 +30,22 @@ case class  Controller @Inject()(var State: GameStateInterface) extends Controll
         notifyObservers
         return this.State
     }
+
+    def save: Unit =
+     def fileIO =
+        Guice.createInjector(new UnoModule).getInstance(classOf[FileIOInterface])
+     fileIO.save(State)
+     statement = "Save Done"
+     notifyObservers
+
+
+
+    def load: Unit =
+     def fileIO =
+        Guice.createInjector(new UnoModule).getInstance(classOf[FileIOInterface])
+     State = fileIO.load
+     statement = State.output
+     notifyObservers
 
     def undo(): Unit =
         undoManager.undoStep
