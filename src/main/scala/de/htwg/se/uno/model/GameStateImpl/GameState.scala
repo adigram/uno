@@ -2,7 +2,7 @@ package de.htwg.se.uno.model
 import scala.io.StdIn.readLine
 import scala.compiletime.ops.string
 import scala.util.Random as random
-
+//aaaa
 case class state (
     currentPlayer:Int,
     players:List[Player],
