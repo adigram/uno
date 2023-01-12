@@ -4,7 +4,4 @@ import de.htwg.se.uno.model._
 import de.htwg.se.uno.uno
 
 
-val a = List(1,2,3,4)
-val (b,c) = a.splitAt(1)
-printf(a.toString)
-printf(b.toString)
+val x = Card(Value.One, Colour.Red)
