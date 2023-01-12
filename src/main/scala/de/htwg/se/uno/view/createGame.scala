@@ -5,6 +5,7 @@ import javax.swing.BorderFactory
 import de.htwg.se.uno.controller._
 
  case class createGame(ctrl: ControllerInterface){
+    
     val name1 = new TextArea("Name1") {
         background = Color.GRAY
         foreground = Color.BLACK
@@ -45,4 +46,5 @@ import de.htwg.se.uno.controller._
         maximumSize = new Dimension(300, 300)
         preferredSize = new Dimension(300, 300)
         }
+    
 }
