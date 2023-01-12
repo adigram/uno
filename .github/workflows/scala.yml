@@ -1,0 +1,30 @@
+name: Scala coverage
+on:
+  push:
+    branches:
+      - master
+      
+permissions:
+  contents: read
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Run tests
+        run: 
+          sbt jacoco jacocoReport
+          
+      - name: Upload coverage data to Coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_FLAG_NAME: Scala ${{ matrix.scala }}
+        run: |
+         export CI_BRANCH="${GITHUB_REF#refs/heads/}"
+         sbt clean jacoco jacocoCoveralls
