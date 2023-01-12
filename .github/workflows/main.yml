@@ -1,8 +1,7 @@
 name: Scala coverage
 on:
   push:
-    branches:
-      - master
+    branches: [master]
       
 permissions:
   contents: read
@@ -24,3 +23,4 @@ jobs:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       run:
         export CI_BRANCH="${GITHUB_REF#refs/heads/}"
+        sbt clean jacoco jacocoCoveralls
