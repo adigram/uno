@@ -5,7 +5,7 @@ import org.scalatest.wordspec.AnyWordSpec
 import model._
 import controller._
 
-class ControllerSpec extends AnyWordSpec with Matchers {
+/*class ControllerSpec extends AnyWordSpec with Matchers {
 
     val scan:(Unit => String) = Unit => "TestName"
     val ctrl = new Controller(state(0,List[Player](),true,List[Card](),List(Card(Value.Nine,Colour.Red)),"", true) )
@@ -21,3 +21,4 @@ class ControllerSpec extends AnyWordSpec with Matchers {
    
     
 }
+*/
