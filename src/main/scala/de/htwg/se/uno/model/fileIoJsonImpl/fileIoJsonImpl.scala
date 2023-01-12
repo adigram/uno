@@ -6,7 +6,7 @@ import play.api.libs.json._
 import de.htwg.se.uno.model._
 import scala.io.Source
 
-class fileIoJsonImpl extends FileIOInterface {
+class FileIoJson extends FileIOInterface {
 
     override def load: GameStateInterface = {
         val source: String = Source.fromFile("game.json").getLines.mkString

@@ -22,7 +22,8 @@ class FileIOXml extends FileIOInterface{
         val deck = toCard(( file \\ "game" \\ "deck" \\ "cards").text)
         val stack = toCard(( file \\ "game" \\ "stack" \\ "cards").text)
         val output = ( file \\ "game" \\ "output").text
-        state(CP.toInt,List(Player( H1, p1N), Player(H2, p2N)), dir.toBoolean, deck,stack,output, false )
+        val unoFlag = ( file \\ "game" \\ "unoFlag").text
+        state(CP.toInt,List(Player( H1, p1N), Player(H2, p2N)), dir.toBoolean, deck,stack,output, unoFlag.toBoolean )
     }
 
     def toHand(hand: String):List[Card] =  {

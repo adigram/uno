@@ -4,6 +4,9 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import de.htwg.se.uno.model.*
 import de.htwg.se.uno.controller._
+import com.google.inject.{Guice, Inject}
+import de.htwg.se.uno.IOXML
+import de.htwg.se.uno.IOJSON
 
 class ControllerSpec extends AnyWordSpec with Matchers {
 
@@ -45,9 +48,21 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         }
     }
 
-    "The method load" should{
+    "The method load JSON" should{
         "should do" in {
             ctrl.State = simState
+            val newState = ctrl.save 
+            ctrl.statement should be("Save Done")
+            ctrl.doStep(UnoUnoEvent())
+            ctrl.load
+            ctrl.State should be (simState)
+        }
+    }
+
+    "The method load XML" should{
+        "should do" in {
+            ctrl.State = simState
+            ctrl.fileIO = Guice.createInjector(new IOXML).getInstance(classOf[FileIOInterface])
             val newState = ctrl.save 
             ctrl.statement should be("Save Done")
             ctrl.doStep(UnoUnoEvent())

@@ -13,13 +13,6 @@ enum Colour {
   }
 
   def InttoString = {
-    this match {
-      case Red => "0"
-      case Green => "1"
-      case Blue => "2"
-      case Yellow => "3"
-      case Black => "4"
-    }
-
+    this.ordinal.toString()
   }
 }

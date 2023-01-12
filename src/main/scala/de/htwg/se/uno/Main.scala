@@ -6,8 +6,8 @@ import com.google.inject.Guice
 import scala.io.StdIn.readLine
 
 object uno{
-  
-  val injector = Guice.createInjector(new UnoModule)
+
+  val injector = Guice.createInjector(new ControllerModule)
   val controller = injector.getInstance(classOf[ControllerInterface])
   val tui = TUI(controller)
   

@@ -5,10 +5,21 @@ import de.htwg.se.uno.controller._
 import de.htwg.se.uno.model._
 
 
-class UnoModule extends AbstractModule {
+class IOJSON extends AbstractModule {
+  override def configure(): Unit = {
+    bind(classOf[FileIOInterface]).toInstance(new fileIoJsonImpl.FileIoJson())
+  }
+}
+
+class IOXML extends AbstractModule {
+  override def configure(): Unit = {
+    bind(classOf[FileIOInterface]).toInstance(new fileIoXmlImpl.FileIOXml())
+  }
+}
+
+class ControllerModule extends AbstractModule {
   override def configure(): Unit = {
     bind(classOf[ControllerInterface]).toInstance(new Controller(new state()))
-    bind(classOf[FileIOInterface]).toInstance(new fileIoJsonImpl.fileIoJsonImpl())
   }
 }
 
