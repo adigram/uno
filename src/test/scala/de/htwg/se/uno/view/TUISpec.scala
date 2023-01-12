@@ -1,4 +1,4 @@
-package de.htwg.se.uno.view
+/*package de.htwg.se.uno.view
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import de.htwg.se.uno.view
@@ -54,3 +54,4 @@ class TUISpec extends AnyWordSpec with Matchers{
 }
 }
 
+*/

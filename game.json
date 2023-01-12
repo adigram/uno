@@ -8,19 +8,19 @@
     },
     "player2" : {
       "name" : "rob",
-      "hand" : [ "9,0", "1,1" ],
+      "hand" : [ "7,0", "1,2" ],
       "handlenght" : "2"
     },
     "direction" : "true",
     "deck" : {
-      "cards" : [ "9,0", "1,1", "9,2", "2,1", "8,2", "2,3" ],
+      "cards" : [ "2,0", "3,0", "1,0", "2,2", "9,0", "2,2" ],
       "cardslenght" : "6"
     },
     "stack" : {
       "cards" : [ "9,0" ],
       "cardslenght" : "1"
     },
-    "output" : "",
+    "output" : "jaaa",
     "unoFlag" : "true"
   }
 }

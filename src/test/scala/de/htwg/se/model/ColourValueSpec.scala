@@ -1,7 +1,7 @@
-package de.htwg.se.uno
+package de.htwg.se.model
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import model._
+import de.htwg.se.uno.model.*
 
 class ColourValueSpec extends AnyWordSpec with Matchers {
     "A Value" when {

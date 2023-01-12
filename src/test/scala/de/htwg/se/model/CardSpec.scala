@@ -1,10 +1,10 @@
 // For more information on writing tests, see
 // https://scalameta.org/munit/docs/getting-started.html
-package de.htwg.se.uno
+package de.htwg.se.model
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import model._
+import de.htwg.se.uno.model.*
 
 val e   = Iterator(0)
 val r5  = Iterator(3,2,4,2,3,0,1,4,2,3,0,2,1,4,1,3,0,4,2,0,3,2,1,2,4,3)

@@ -14,8 +14,7 @@ import com.google.inject.Guice
 class TUI(ctrl:ControllerInterface) extends Observer{
     var flagInput = 1
     ctrl.add(this)
-    ctrl.createGame()
-      
+    ctrl.createGame()    
     def input(input:String) = {
         flagInput = 1
         if (ctrl.startFlag == 1){
