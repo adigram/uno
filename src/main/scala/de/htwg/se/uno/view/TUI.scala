@@ -12,14 +12,14 @@ import com.google.inject.Guice
 
 
 class TUI(ctrl:ControllerInterface) extends Observer{
-
+    var flagInput = 1
     ctrl.add(this)
     ctrl.createGame()
       
-    def input() = {
+    def input(input:String) = {
+        flagInput = 1
         if (ctrl.startFlag == 1){
-            println(instruction) 
-            val input =  readLine()
+            
             input match {
                 case "t" => {
                             if(ctrl.doStep(takeCardFromDeckEvent()).output.apply(0).equals('D'))
@@ -42,15 +42,14 @@ class TUI(ctrl:ControllerInterface) extends Observer{
                 case "redo" => ctrl.redo()
                 case "save" => ctrl.save
                 case "load" => ctrl.load
-                case _ => println("Wrong Input pls try again")
+                case _ => println("Wrong Input pls try again"); flagInput = 0
             }
+            println(instruction) 
         }
-        else{
-         println(startInstruction) 
-         val input =  readLine()
+        else{ 
          input match {
                 case regexNamen() =>  ctrl.createPlayers(input.split(" ").toList);ctrl.printPlayers();ctrl.printFirstcard()
-                case _ => println("Wrong Input pls try again")
+                case _ => println("Wrong Input pls try again");println(startInstruction);flagInput = 0
             }
         }
          

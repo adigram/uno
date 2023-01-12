@@ -3,7 +3,7 @@ import model._
 import view._
 import controller._
 import com.google.inject.Guice
-
+import scala.io.StdIn.readLine
 
 object uno{
   
@@ -13,8 +13,10 @@ object uno{
   
   @main def main():Unit ={
     val gui = GUI1(controller)
+    print("Hello! Please enter your Name in the Format:\nNamen1 Namen2")
     while (true) {
-       tui.input()
+      var input = readLine()
+       tui.input(input)
     }
   }
 }

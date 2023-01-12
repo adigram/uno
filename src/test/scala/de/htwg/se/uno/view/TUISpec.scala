@@ -20,6 +20,37 @@ class TUISpec extends AnyWordSpec with Matchers{
         }
         
         }
+
+        "case default" in {
+            tui.input("paa")
+            ctrl.State.unoFlag should be (true)
+        }
+
+        "case start" in {
+            tui.input("paa")
+            ctrl.State.unoFlag should be (true)
+            ctrl.createGame()
+            tui.input("a b")
+            ctrl.State.players(0).name should be("a")
+            ctrl.State = state(0,List[Player](Player(List(Card(Value.Nine,Colour.Red),Card(Value.One,Colour.Green)),"Jens"),Player(List(Card(Value.Nine,Colour.Red),Card(Value.One,Colour.Green)),"rob") ),true,List[Card](Card(Value.Nine,Colour.Red),Card(Value.One,Colour.Green),Card(Value.Nine,Colour.Blue),Card(Value.Two,Colour.Green),Card(Value.Eight,Colour.Blue),Card(Value.Two,Colour.Yellow)),List(Card(Value.Nine,Colour.Red)),"", true)
+            ctrl.printPlayers()
+            tui.input("undo")
+            tui.flagInput should be (1)
+            tui.input("redo")
+            tui.flagInput should be (1)
+            tui.input("save")
+            tui.flagInput should be (1)
+            tui.input("load")
+            tui.flagInput should be (1)
+            
+        }
+
+        "case default in if" in {
+            ctrl.createGame()
+            ctrl.createPlayers(List[String]("a","b"))
+            tui.input("paa")
+            ctrl.State.unoFlag should be (true)
+        }
 }
 }
 
