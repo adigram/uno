@@ -13,6 +13,7 @@ lazy val root = project
     libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.1.0",
     libraryDependencies += ("com.typesafe.play" %% "play-json" % "2.10.0-RC5"),
     libraryDependencies += ("org.scala-lang.modules" %% "scala-swing" % "3.0.0").cross(CrossVersion.for3Use2_13),
+    jacocoCoverallsRepoToken := sys.env.get("COVERALLS_REPO_TOKEN"),
     jacocoReportSettings := JacocoReportSettings(
       "Jacoco Coverage Report",
       None,
