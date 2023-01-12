@@ -19,7 +19,7 @@ jobs:
           distribution: 'temurin'
       - name: Run tests
         run: 
-          sbt clean coverage jacoco
+          sbt clean test jacoco
           
       - name: Upload coverage data to Coveralls
         run: sbt coverageReport coveralls
