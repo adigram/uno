@@ -5,6 +5,8 @@ lazy val root = project
   .settings(
     name := "uno",
     version := "0.1.0-SNAPSHOT",
+    libraryDependencies += "org.apache.commons" % "commons-lang3" % "3.4",
+    libraryDependencies += "org.apache.commons" % "commons-io" % "1.3.2",
     libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.10",
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.10" % "test",
     libraryDependencies += "org.scalameta" %% "munit" % "0.7.29" % Test,

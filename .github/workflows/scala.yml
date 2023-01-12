@@ -1,8 +1,9 @@
-name: Scala coverage
+name: Scala CI
 on:
   push:
-    branches:
-      - master
+    branches: [ master, develop]
+  pull_request:
+   branches: [ master ]
       
 permissions:
   contents: read
@@ -17,14 +18,19 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Run tests
-        run: 
-          sbt jacoco jacocoReport
-          
-      - name: Upload coverage data to Coveralls
+      - name: compile
+        run: sbt compile
+      - name: run tests
+        run: sbt test
+        
+  run_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Project and export Coverage
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_FLAG_NAME: Scala ${{ matrix.scala }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         run: |
          export CI_BRANCH="${GITHUB_REF#refs/heads/}"
          sbt clean jacoco jacocoCoveralls
