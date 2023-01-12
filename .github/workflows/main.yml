@@ -1,14 +1,16 @@
-name: Scala coverage
+name: Scala CI
+
 on:
   push:
-    branches: [master]
-      
-permissions:
-  contents: read
-  
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
@@ -16,12 +18,19 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Run tests
-      run: sbt clean test jacoco 
+    - name: compile
+      run: sbt compile
+    - name: run tests
+      run: sbt test
 
-    - name: Export to Coveralls
-      env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-      run: |
+  run_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Project and export Coverage
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        run: |
           export CI_BRANCH="${GITHUB_REF#refs/heads/}"
           sbt clean jacoco jacocoCoveralls 
