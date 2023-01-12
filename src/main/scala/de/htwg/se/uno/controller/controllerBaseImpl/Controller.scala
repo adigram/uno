@@ -14,11 +14,12 @@ case class  Controller @Inject()(var State: GameStateInterface) extends Controll
     def createGame() =
         this.State =  State.createGame()
         
-    def createPlayers(Namen:List[String]) = 
+    def createPlayers(Namen:List[String]): String = 
         State = State.createPlayers(Namen)
         startFlag = 1
         statement = "Players created!\n"
         notifyObservers
+        statement
 
     def printPlayers() =  
         statement = State.players.map(k => k.toString).mkString
