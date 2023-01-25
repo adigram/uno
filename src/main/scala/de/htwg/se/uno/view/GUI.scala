@@ -17,6 +17,17 @@ class GUI1(ctrl: ControllerInterface) extends MainFrame with Observer {
  var dropNOt = CardElements(ctrl).GridPanelDroporNot
  var colour = CardElements(ctrl).GridPanelColour
 
+ menuBar = new MenuBar{
+       contents += new Menu("File"){
+          contents+= new MenuItem(Action("Save"){ctrl.save})
+          contents+= new MenuItem(Action("Load"){ctrl.load})
+       }
+       contents += new Menu("Edit"){
+          contents+= new MenuItem(Action("Undo"){ctrl.undo()})
+          contents+= new MenuItem(Action("Redo"){ctrl.redo()})
+       }
+ }
+
  override def update: Unit = {
        
        dropNOt.visible = false
@@ -27,42 +38,28 @@ class GUI1(ctrl: ControllerInterface) extends MainFrame with Observer {
        if (CardElements(ctrl).possibleDrop){
               dropNOt.visible = true
               box.contents += dropNOt
-              
        }
        else if (CardElements(ctrl).ColourChoose){
               colour.visible = true
-              box.contents += colour
-              
+              box.contents += colour        
        }
        else{
-              box.contents += CardElements(ctrl).GridPanelStack
-              box.contents += CardElements(ctrl).createBoxPlayer
+              box.contents += CardElements(ctrl).CreateField
+              box.contents += CardElements(ctrl).createBoxPlayer(ctrl.State.players(ctrl.State.currentPlayer))
               box.contents += CardElements(ctrl).GridPanelUNO
               box.contents += dropNOt
               box.contents += colour
-              
        }
-        contents = box
+       contents = box
 }
 
  val box = new BoxPanel(Orientation.Vertical){
         border = BorderFactory.createEmptyBorder(10, 0, 10, 0)
-        minimumSize = new Dimension(550, 500)
-        maximumSize = new Dimension(550, 500)
-        preferredSize = new Dimension(550, 500)
+        //preferredSize = new Dimension(500, 500)
         resizable = false
- 
+        background = new Color(0.2f,0.2f,0.2f)
  }
- 
-
-
-  
-
-  
   pack()
   centerOnScreen()
-  open()
-
-    
+  open()    
 }
-

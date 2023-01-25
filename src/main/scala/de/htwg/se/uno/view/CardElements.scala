@@ -3,111 +3,129 @@ import de.htwg.se.uno.model._
 import de.htwg.se.uno.controller.Controller
 import scala.swing._
 import java.awt.Color
+import java.awt.Image;
 import javax.swing.BorderFactory
 import scala.swing.event.MouseClicked
 import javax.swing.{ImageIcon}
 import java.io.File
 import java.awt.image.BufferedImage
+import javax.imageio.ImageIO;
 import scala.swing.event.SelectionChanged.apply
 import de.htwg.se.uno.controller.ControllerInterface
 
+val width = 70;
+val height = 100;
+val cardSize = new Dimension(width, height);
+
+val image_back  = ImageIO.read(new File("src/resources/cards/back.png"  )).getScaledInstance(width, height, Image.SCALE_SMOOTH);
+val image_black = ImageIO.read(new File("src/resources/cards/black.png" )).getScaledInstance(width, height, Image.SCALE_SMOOTH);
+val image_blue  = ImageIO.read(new File("src/resources/cards/blue.png"  )).getScaledInstance(width, height, Image.SCALE_SMOOTH);
+val image_green = ImageIO.read(new File("src/resources/cards/green.png" )).getScaledInstance(width, height, Image.SCALE_SMOOTH);
+val image_red   = ImageIO.read(new File("src/resources/cards/red.png"   )).getScaledInstance(width, height, Image.SCALE_SMOOTH);
+val image_yellow= ImageIO.read(new File("src/resources/cards/yellow.png")).getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+val font_emoji   = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, new File("src/resources/NotoEmoji-Bold.ttf"))
+val arial_normal = new Font("Arial", 1, 15)
+val arial_big    = new Font("Arial", 1, 25)
+val emoji_big    = font_emoji.deriveFont(25f)
+
+val color_bg = new Color(0.2f,0.2f,0.2f)
+
 case class CardElements(ctrl: ControllerInterface){
-def button : Button = new Button() {
+
+
+def deck = new Button() {
     reactions += { case event.ButtonClicked(_) =>
       ctrl.doStep(takeCardFromDeckEvent())
     }
-    border = BorderFactory.createRaisedSoftBevelBorder
-    font = new Font("Arial", 1, 15)
-    minimumSize = new Dimension(80, 100)
-    maximumSize = new Dimension(80, 100)
-    preferredSize = new Dimension(80, 100)
-    icon =  ImageIcon("src/ressourcen/cards/hinten.jpg")
+    border = BorderFactory.createEmptyBorder()
+    //contentAreaFilled = false
+    //borderPainted = false
+    font = arial_normal
+    preferredSize = cardSize
+    icon =  ImageIcon(image_back);    
   }
 
-def stack : Button = new Button(ctrl.State.stack(0).value.toString) {
-    border = BorderFactory.createRaisedSoftBevelBorder
-    font = new Font("Arial", 1, 15)
-    minimumSize = new Dimension(80, 100)
-    maximumSize = new Dimension(80, 100)
-    preferredSize = new Dimension(80, 100)
-    background = ctrl.State.stack(0).colour match{
-            case Colour.Red => Color.RED
-            case Colour.Yellow => Color.YELLOW
-            case Colour.Green => Color.GREEN
-            case Colour.Blue => Color.BLUE
-            case Colour.Black => Color.BLACK
-          }
+def stack = renderCard(ctrl.State.stack(0))
 
-    
-  }
-  def GridPanelStack : GridPanel =
-     new GridPanel(2, 1) {
-        contents += button
-        contents += stack
-        minimumSize = new Dimension(80, 200)
-        maximumSize = new Dimension(80, 200)
-        preferredSize = new Dimension(80, 200)
+def renderCard(card:Card) = new Button(card.value.toString) {
+    font = card.value match {
+      case Value.Skip | Value.Wild | Value.Reverse => emoji_big
+      case _ => arial_big
     }
-
-  
-def buttonDropNot : Button = new Button("Nextplayer"){
-  reactions +={
-      case event.ButtonClicked(_)  =>
-        ctrl.doStep(nextPlayerEvent())
-        }
-    border = BorderFactory.createRaisedSoftBevelBorder
-    font = new Font("Arial", 1, 10)
-    minimumSize = new Dimension(200, 40)
-    maximumSize = new Dimension(200, 40)
-    preferredSize = new Dimension(200, 40)
-  }
-
-def buttonDrop : Button  = new Button("Drop the crad you got from stack"){
-  reactions +={
-      case event.ButtonClicked(_)  =>
-        ctrl.doStep(dropLastCardEvent(None))
-        }
-    border = BorderFactory.createRaisedSoftBevelBorder
-    font = new Font("Arial", 1, 10)
-    minimumSize = new Dimension(200, 40)
-    maximumSize = new Dimension(200, 40)
-    preferredSize = new Dimension(200, 40)
-  }
-
-  
-
-  def createBoxPlayer: GridPanel =
-    val player = ctrl.State.players(ctrl.State.currentPlayer).hand
-    new GridPanel(2, player.size) {
-      contents += new TextArea(ctrl.State.players(ctrl.State.currentPlayer).name +":")
-      if (player.length != 0) then
-        border = BorderFactory.createLineBorder(Color.BLACK, 3)
-      for (i <- 0 to player.size - 1) {
-        contents += new Button(player(i).value.toString) {
-          background = player(i).colour match{
-            case Colour.Red => Color.RED
-            case Colour.Yellow => Color.YELLOW
-            case Colour.Green => Color.GREEN
-            case Colour.Blue => Color.BLUE
-            case Colour.Black => Color.BLACK
-          }
-          listenTo(mouse.clicks)
-          reactions += { case e: MouseClicked =>
-            if (ctrl.State.unoFlag)
-              ctrl.doStep(UnoEvent(Option(i) ))
-            else
-              ctrl.doStep(dropCardEvent(Option(i) ))
-        }
-      }
+    foreground = Color.WHITE
+    horizontalTextPosition = Alignment.Center
+    preferredSize = cardSize
+    icon = card.colour match{
+      case Colour.Red    => ImageIcon(image_red);
+      case Colour.Yellow => ImageIcon(image_yellow)
+      case Colour.Green  => ImageIcon(image_green)
+      case Colour.Blue   => ImageIcon(image_blue)
+      case Colour.Black  => ImageIcon(image_black)
     }
 }
+
+def CreateField = new FlowPanel {
+  contents += deck
+  contents += stack
+  background = color_bg//new Color(0.0f,0.0f,0.0f,0.0f)
+}
+
+  
+def buttonDropNot = new Button("Keep Card"){
+  reactions +={ case event.ButtonClicked(_)  =>
+    ctrl.doStep(nextPlayerEvent())
+  }
+  border = BorderFactory.createRaisedSoftBevelBorder
+  font = arial_normal
+  preferredSize = new Dimension(200, 40)
+}
+
+def buttonDrop = new Button("Play Card"){
+  reactions +={ case event.ButtonClicked(_)  =>
+    ctrl.doStep(dropLastCardEvent(None))
+  }
+  border = BorderFactory.createRaisedSoftBevelBorder
+  font = arial_normal
+  preferredSize = new Dimension(200, 40)
+}
+
+  
+
+def createBoxPlayer(player:Player) =
+  new BoxPanel(Orientation.Vertical){
+    background = color_bg //new Color(0.0f,0.0f,0.0f,0.0f)
+    contents+= new BorderPanel {
+      add(new Button(player.name){
+        font =  arial_normal
+        background = Color.WHITE
+        contentAreaFilled = false
+      }, BorderPanel.Position.Center)
+    } 
+    contents+= new FlowPanel {
+      background = color_bg //new Color(0.0f,0.0f,0.0f,0.0f)
+      if (player.hand.length != 0) then
+        border = BorderFactory.createLineBorder(Color.WHITE, 3)
+        for (i <- 0 to player.hand.size - 1) {
+        val playercard = renderCard(player.hand(i))
+        playercard.reactions += { case event.ButtonClicked(_) =>
+            if (ctrl.State.unoFlag)
+              ctrl.doStep(UnoEvent( Option(i) ))
+            else
+              ctrl.doStep(dropCardEvent( Option(i) ))
+        }
+        contents += playercard
+    }
+  }
+}
+
  def buttonRed : Button= new Button("Red"){
   reactions +={
       case event.ButtonClicked(_)  =>
         ctrl.doStep(chooseColourEvent(Option(0))) 
         }
     border = BorderFactory.createRaisedSoftBevelBorder
-    font = new Font("Arial", 1, 10)
+    font = arial_normal
     minimumSize = new Dimension(100, 40)
     maximumSize = new Dimension(100, 40)
     preferredSize = new Dimension(100, 40)
@@ -119,7 +137,7 @@ def buttonDrop : Button  = new Button("Drop the crad you got from stack"){
         ctrl.doStep(chooseColourEvent(Option(1))) 
         }
     border = BorderFactory.createRaisedSoftBevelBorder
-    font = new Font("Arial", 1, 10)
+    font = arial_normal
     minimumSize = new Dimension(100, 40)
     maximumSize = new Dimension(100, 40)
     preferredSize = new Dimension(210000, 40)
@@ -131,7 +149,7 @@ def buttonDrop : Button  = new Button("Drop the crad you got from stack"){
         ctrl.doStep(chooseColourEvent(Option(2))) 
         }
     border = BorderFactory.createRaisedSoftBevelBorder
-    font = new Font("Arial", 1, 10)
+    font = arial_normal
     minimumSize = new Dimension(100, 40)
     maximumSize = new Dimension(100, 40)
     preferredSize = new Dimension(100, 40)
@@ -143,15 +161,15 @@ def buttonDrop : Button  = new Button("Drop the crad you got from stack"){
         ctrl.doStep(chooseColourEvent(Option(3))) 
         }
     border = BorderFactory.createRaisedSoftBevelBorder
-    font = new Font("Arial", 1, 10)
+    font = arial_normal
     minimumSize = new Dimension(100, 40)
     maximumSize = new Dimension(100, 40)
     preferredSize = new Dimension(100, 40)
   }
 
-def LabelColour : Button = new Button("Which Colour do you want)"){
+def LabelColour : Button = new Button("Choose your Color"){
     border = BorderFactory.createRaisedSoftBevelBorder
-    font = new Font("Arial", 1, 10)
+    font = arial_normal
     minimumSize = new Dimension(100, 40)
     maximumSize = new Dimension(100, 40)
     preferredSize = new Dimension(100, 40)
@@ -175,7 +193,7 @@ def UNOUNOBUTTON : Button = new Button("UNO UNO"){
         if(ctrl.doStep(UnoUnoEvent()).output.apply(0).equals('T')) System.exit(0)
         }
     border = BorderFactory.createRaisedSoftBevelBorder
-    font = new Font("Arial", 1, 10)
+    font = arial_normal
     minimumSize = new Dimension(100, 40)
     maximumSize = new Dimension(100, 40)
     preferredSize = new Dimension(100, 40)
@@ -188,32 +206,7 @@ def UNOBUTTON : Button= new Button("UNO"){
          ctrl.State.stack, ctrl.State.output,true)
         }
     border = BorderFactory.createRaisedSoftBevelBorder
-    font = new Font("Arial", 1, 10)
-    minimumSize = new Dimension(100, 40)
-    maximumSize = new Dimension(100, 40)
-    preferredSize = new Dimension(100, 40)
-  }
-
-
-
-def undo : Button= new Button("UNDO"){
-  reactions +={
-      case event.ButtonClicked(_)  =>
-        ctrl.undo()
-        }
-    border = BorderFactory.createRaisedSoftBevelBorder
-    font = new Font("Arial", 1, 10)
-    minimumSize = new Dimension(100, 40)
-    maximumSize = new Dimension(100, 40)
-    preferredSize = new Dimension(100, 40)
-  }
-def redo : Button= new Button("REDO"){
-  reactions +={
-      case event.ButtonClicked(_)  =>
-        ctrl.redo()
-        }
-    border = BorderFactory.createRaisedSoftBevelBorder
-    font = new Font("Arial", 1, 10)
+    font = arial_normal
     minimumSize = new Dimension(100, 40)
     maximumSize = new Dimension(100, 40)
     preferredSize = new Dimension(100, 40)
@@ -233,19 +226,10 @@ def GridPanelUNO : GridPanel =
      new GridPanel(2, 2) {
         contents += UNOUNOBUTTON
         contents += UNOBUTTON
-        contents += undo
-        contents += redo
         minimumSize = new Dimension(200, 80)
         maximumSize = new Dimension(200, 80)
         preferredSize = new Dimension(200, 80)
     }
   def possibleDrop : Boolean = ctrl.State.output.apply(0).equals('D')
   def ColourChoose : Boolean = ctrl.State.output.apply(0).equals('W')
-
-
 }
-
-
-
-
-
