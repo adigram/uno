@@ -25,8 +25,8 @@ uno uno  / uu          | call uno uno
 
 # GUI
 
-  ![alt text](src/main/ressourcen/cards/setup.png)<br/>
+  ![alt text](src/ressourcen/cards/setup.png)<br/>
 
-  ![alt text](src/main/ressourcen/cards/ingame.png)<br/>
+  ![alt text](src/ressourcen/cards/ingame.png)<br/>
 
   
