@@ -1,4 +1,4 @@
-## Uno
+# Uno
 
 ### Note for Windows
 run `chcp 65001` to enable needed UTF-8 compatibility
@@ -23,7 +23,7 @@ uno uno  / uu          | call uno uno
 
 
 
-# GUI
+## GUI
 
   ### Start Screen
 
