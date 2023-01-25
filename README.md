@@ -25,7 +25,11 @@ uno uno  / uu          | call uno uno
 
 # GUI
 
+  ### Start Screen
+
   ![alt text](src/ressourcen/cards/setup.png)<br/>
+
+  ### Ingame Screen
 
   ![alt text](src/ressourcen/cards/ingame.png)<br/>
 
