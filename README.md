@@ -20,3 +20,7 @@ save                   | save the Gamestate
 load                   | load the Gamestate
 uno       / u          | call uno
 uno uno  / uu          | call uno uno
+
+
+
+image.png
