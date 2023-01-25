@@ -28,3 +28,5 @@ uno uno  / uu          | call uno uno
   ![alt text](src/main/resources/cards/setup.png)<br/>
 
   ![alt text](src/main/resources/cards/ingame.png)<br/>
+
+  
