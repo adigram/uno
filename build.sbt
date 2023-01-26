@@ -41,6 +41,6 @@ lazy val root = project
 )
 
 
-                   
+                  
 //coverageEnabled := true
 
