@@ -18,22 +18,20 @@ class TUI(ctrl:ControllerInterface) extends Observer{
     def input(input:String) = {
         flagInput = 1
         if (ctrl.startFlag == 1){
-            
+            if(ctrl.State.output.apply(0).equals('W')){
+                println("DETECTED W chose color. Input:"+input) // DEBUG
+                ctrl.doStep(chooseColourEvent(toInt(input)))
+            }else if(ctrl.State.output.apply(0).equals('D')){
+                println("DETECTED D play or keep card") // DEBUG
+                input match {
+                    case "y" => ctrl.doStep(dropLastCardEvent(None))
+                    case _   => ctrl.doStep(nextPlayerEvent())
+                }
+            }else{
+            println("DETECTED normal input") // DEBUG
             input match {
-                case "t" => {
-                            if(ctrl.doStep(takeCardFromDeckEvent()).output.apply(0).equals('D'))
-                                readLine() match {
-                                    case "y" => if(ctrl.doStep(dropLastCardEvent(None)).output.apply(0).equals('W'))
-                                                ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
-                                    case "n" => ctrl.doStep(nextPlayerEvent())
-                                    case _   => ctrl.doStep(nextPlayerEvent())
-                                }
-                            }
-                case "r" => {
-                            println(select)
-                            if(ctrl.doStep(dropCardEvent(toInt(readLine()))).output.apply(0).equals('W'))
-                                ctrl.doStep(chooseColourEvent(toInt(readLine()))) 
-                            }
+                case "t"                 => ctrl.doStep(takeCardFromDeckEvent())
+                case "r"                 => println(select);ctrl.doStep(dropCardEvent(toInt(readLine())))
                 case "u" | regexUno()    => println(select);ctrl.doStep(UnoEvent(toInt(readLine())))
                 case "uu"| regexUnoUno() => if(ctrl.doStep(UnoUnoEvent()).output.apply(0).equals('T')) System.exit(0)
                 case "q" | regexQuit()   => System.exit(0)
@@ -43,9 +41,11 @@ class TUI(ctrl:ControllerInterface) extends Observer{
                 case "load" => ctrl.load
                 case _ => println("Wrong Input pls try again"); flagInput = 0
             }
-            println(instruction) 
+            println(instruction)
+            } 
         }
-        else{ 
+        else{
+         println("DETECTED name input") // DEBUG
          input match {
                 case regexNamen() =>  ctrl.createPlayers(input.split(" ").toList);ctrl.printPlayers();ctrl.printFirstcard()
                 case _ => println("Wrong Input pls try again");println(startInstruction);flagInput = 0
@@ -53,7 +53,7 @@ class TUI(ctrl:ControllerInterface) extends Observer{
         }
          
     }
-    override def update: Unit = println(ctrl.statement)
+    override def update: Unit = {println(ctrl.statement)}
 
     def toInt(s: String): Option[Int] = {
          Try(s.toInt) match{
@@ -77,5 +77,5 @@ val instruction = "Possible Instructions:\n\tt = Take a new Card from Stack\n" +
                       "\tredo = repeat State\n"
 
 val select = "Please Select the Crad you want to drop.\nThe first card has the index 0." 
-val startInstruction = "Hello! Please enter your Name in the Format:\nNamen1 Namen2"
+val startInstruction = "Hello! Please enter your Name in the Format:\nNamen1 Namen2\n"
 val regexNamen : Regex = """[0-9a-zA-Z- ]+[\s][0-9a-zA-Z- ]+$""".r
