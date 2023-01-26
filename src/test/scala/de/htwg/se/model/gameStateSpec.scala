@@ -42,9 +42,9 @@ class gameStateSpec extends AnyWordSpec with Matchers {
      "Choose colour" should{
         "set Currentplayer" in {
            var newState3 = simState.chooseColour(None)
-           newState3.output should be("You didn't choose a Colour.The will be the same as before.\n")
+           newState3.output should be("You didn't choose a Colour: picked Red for you\n")
            newState3 = simState.chooseColour(Option(1))
-           newState3.stack(0) should be (Card(Value.values(0),Colour.values(1)))
+           newState3.stack(0) should be (Card(Value.Wild,Colour.Green))
     }
 }
 
