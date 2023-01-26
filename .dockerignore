@@ -1,5 +1,8 @@
 # macOS
 .DS_Store
+#documentation
+*.md
+doc/*
 
 # sbt specific
 dist/*

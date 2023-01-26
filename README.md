@@ -10,7 +10,6 @@ run `chcp 65001` to enable needed UTF-8 compatibility
 ## TUI commands and example
 Command | Description 
 --------|--------
-Name1 Name2            | starts game with Name1 and Name2
 quit      / q          | quits the program
 t                      | takes a card from stack
 r                      | drop card
@@ -24,13 +23,8 @@ uno uno  / uu          | call uno uno
 
 
 ## GUI
-
-  ### Start Screen
-
-  ![alt text](src/ressourcen/cards/setup.png)<br/>
-
   ### Ingame Screen
 
-  ![alt text](src/ressourcen/cards/ingame.png)<br/>
+  ![Ingame Screen](doc/unogame.png)<br/>
 
   
