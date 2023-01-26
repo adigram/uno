@@ -121,10 +121,15 @@ case class state (
 
     def chooseColour(colourNumber: Option[Int]): state ={ 
         colourNumber match{
-            case Some(colourNumber) => this.copy(stack = List(Card(Value.values(0),Colour.values(colourNumber))) ++ this.stack,
-                                                        output = "Now it's the round of:\n" + this.players(this.currentPlayer).toString + "\n" + 
-                                                        Card(Value.values(0),Colour.values(colourNumber)).toString() +"\n")
-            case none => this.copy(output = "You didn't choose a Colour.The will be the same as before.\n")
+            case Some(colourNumber) => 
+                if(colourNumber < 5){
+                    this.copy(stack = List(Card(Value.Wild,Colour.values(colourNumber))) ++ this.stack,
+                    output = "Now it's the round of:\n" + this.players(this.currentPlayer).toString + "\n" + 
+                    Card(Value.values(0),Colour.values(colourNumber)).toString() +"\n")
+                }else{
+                    this.copy(output = "Your Number was to big: picked Red for you\n",stack = List(Card(Value.Wild,Colour.Red)) ++ this.stack)
+                }
+            case none => this.copy(output = "You didn't choose a Colour: picked Red for you\n",stack = List(Card(Value.Wild,Colour.Red)) ++ this.stack)
         }
     }
 

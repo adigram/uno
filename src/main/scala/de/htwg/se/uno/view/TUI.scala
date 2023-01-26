@@ -19,13 +19,16 @@ class TUI(ctrl:ControllerInterface) extends Observer{
         flagInput = 1
         if (ctrl.startFlag == 1){
             if(ctrl.State.output.apply(0).equals('W')){
+                println("DETECTED W chose color. Input:"+input) // DEBUG
                 ctrl.doStep(chooseColourEvent(toInt(input)))
             }else if(ctrl.State.output.apply(0).equals('D')){
+                println("DETECTED D play or keep card") // DEBUG
                 input match {
                     case "y" => ctrl.doStep(dropLastCardEvent(None))
                     case _   => ctrl.doStep(nextPlayerEvent())
                 }
             }else{
+            println("DETECTED normal input") // DEBUG
             input match {
                 case "t"                 => ctrl.doStep(takeCardFromDeckEvent())
                 case "r"                 => println(select);ctrl.doStep(dropCardEvent(toInt(readLine())))
@@ -41,7 +44,8 @@ class TUI(ctrl:ControllerInterface) extends Observer{
             println(instruction)
             } 
         }
-        else{ 
+        else{
+         println("DETECTED name input") // DEBUG
          input match {
                 case regexNamen() =>  ctrl.createPlayers(input.split(" ").toList);ctrl.printPlayers();ctrl.printFirstcard()
                 case _ => println("Wrong Input pls try again");println(startInstruction);flagInput = 0
@@ -49,7 +53,7 @@ class TUI(ctrl:ControllerInterface) extends Observer{
         }
          
     }
-    override def update: Unit = println(ctrl.statement)
+    override def update: Unit = {println(ctrl.statement)}
 
     def toInt(s: String): Option[Int] = {
          Try(s.toInt) match{
