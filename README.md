@@ -17,7 +17,7 @@ run `chcp 65001` to enable needed UTF-8 compatibility
 3. Run the Game `docker run -it --rm uno:v1`
 ### Note for Windows
 You need a Linux X Window System Server on your Windows
-We recommend using Xming [![xming](https://sourceforge.net/projects/xming/)
+We recommend using Xming https://sourceforge.net/projects/xming/
 
 # TUI commands and example
 Command | Description 
