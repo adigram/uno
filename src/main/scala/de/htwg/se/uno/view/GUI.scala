@@ -8,14 +8,15 @@ import de.htwg.se.uno.util._
 import de.htwg.se.uno.model._
 import java.awt.Color
 import javax.swing.BorderFactory
+import javax.swing.WindowConstants
 
-class GUI1(ctrl: ControllerInterface) extends MainFrame with Observer {
+class GUI(ctrl: ControllerInterface) extends MainFrame with Observer {
  ctrl.add(this)
  title = "UNO"
  resizable = false
  contents = createGame(ctrl).ret
  var dropNOt = CardElements(ctrl).GridPanelDroporNot
- var colour = CardElements(ctrl).GridPanelColour
+ var colour  = CardElements(ctrl).GridPanelColour
 
  menuBar = new MenuBar{
        contents += new Menu("File"){
@@ -28,33 +29,35 @@ class GUI1(ctrl: ControllerInterface) extends MainFrame with Observer {
        }
  }
 
+ val dialog = new Dialog{
+       peer.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE)
+ }
+
  override def update: Unit = {
-       
-       dropNOt.visible = false
-       colour.visible = false
-       
-       box.contents.clear()
-       
+       dialog.visible = false       
        if (CardElements(ctrl).possibleDrop){
-              dropNOt.visible = true
-              box.contents += dropNOt
+              dialog.contents = dropNOt
+              dialog.centerOnScreen()
+              dialog.modal = true
+              dialog.visible = true
        }
        else if (CardElements(ctrl).ColourChoose){
-              colour.visible = true
-              box.contents += colour        
+              dialog.contents = colour
+              dialog.centerOnScreen()
+              dialog.modal = true
+              dialog.visible = true       
        }
        else{
+              box.contents.clear()
               box.contents += CardElements(ctrl).CreateField
               box.contents += CardElements(ctrl).createBoxPlayer(ctrl.State.players(ctrl.State.currentPlayer))
               box.contents += CardElements(ctrl).GridPanelUNO
-              box.contents += dropNOt
-              box.contents += colour
        }
        contents = box
 }
 
  val box = new BoxPanel(Orientation.Vertical){
-        border = BorderFactory.createEmptyBorder(10, 0, 10, 0)
+        //border = BorderFactory.createEmptyBorder(10, 0, 10, 0)
         //preferredSize = new Dimension(500, 500)
         resizable = false
         background = new Color(0.2f,0.2f,0.2f)
